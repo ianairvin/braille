@@ -2,10 +2,10 @@ package ru.braille.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.braille.data.room.entities.Lesson
+import ru.braille.data.room.entities.LessonDB
 
 @Database(
-    entities = [Lesson::class],
+    entities = [LessonDB::class],
     version = 1
 )
 

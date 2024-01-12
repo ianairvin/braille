@@ -3,11 +3,11 @@ package ru.braille.data.room.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "lessons")
-data class Lesson(
+@Entity(tableName = "list_lessons")
+data class LessonDB(
     @PrimaryKey val number: Int,
-    val symbol1: Char,
-    val symbol2: Char?,
-    val symbol3: Char?,
+    val symbol1: String,
+    val symbol2: String?,
+    val symbol3: String?,
     var completed: Boolean
 )

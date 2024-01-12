@@ -3,16 +3,13 @@ package ru.braille.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
+import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
@@ -24,13 +21,15 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
-import ru.braille.presentation.main_elements_app.TopBar
 import ru.braille.ui.theme.BrailleTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val listLessonsViewModel by viewModels<ListLessonsVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -52,7 +51,10 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        AppNavHost(navController = navController)
+                        AppNavHost(
+                            navController,
+                            badgeCountLearning,
+                            listLessonsViewModel)
                     }
                 }
             }

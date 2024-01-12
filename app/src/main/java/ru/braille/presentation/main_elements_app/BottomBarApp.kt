@@ -22,7 +22,6 @@ import androidx.navigation.compose.composable
 import ru.braille.color.surfaceContainerDark
 import ru.braille.color.surfaceContainerLight
 import ru.braille.R
-import ru.braille.presentation.list_lessons_screen.ListLessonsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
