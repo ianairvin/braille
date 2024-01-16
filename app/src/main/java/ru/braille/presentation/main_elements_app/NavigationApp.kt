@@ -8,6 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.braille.presentation.lesson_screen.LessonScreen
+import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsScreen
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 
@@ -15,9 +17,12 @@ import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 fun AppNavHost(
     navController: NavHostController,
     badgeCountLearning: MutableState<Int>,
-    listLessonsVM: ListLessonsVM
+    listLessonsVM: ListLessonsVM,
+    lessonVM: LessonVM
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
+    val tabIndex = remember { mutableStateOf(0) }
+    val selectedLesson = remember { mutableStateOf(0) }
 
     NavHost(navController = navController, startDestination = "list_lessons") {
 
@@ -26,11 +31,20 @@ fun AppNavHost(
                 navController,
                 selectedItem,
                 badgeCountLearning,
-                listLessonsVM)
+                listLessonsVM,
+                tabIndex,
+                selectedLesson
+                )
         }
         composable(route = "lesson"){
-            //LessonScreen(contentPadding)
-           // ListLessonsScreen(navController, selectedItem)
+            LessonScreen(
+                navController,
+                selectedItem,
+                badgeCountLearning,
+                lessonVM,
+                tabIndex,
+                selectedLesson
+            )
         }
         composable(route = "repeat"){
             //RepeatScreen(contentPadding)

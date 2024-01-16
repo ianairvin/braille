@@ -35,9 +35,11 @@ fun TopBar(
                     tabIndex.value = 0
                     selectedItem.value = "list_lessons"
                     navController.navigate("list_lessons") {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
                         }
+                        launchSingleTop = true
+                        restoreState = true
                     }
                 }
             },
@@ -49,9 +51,11 @@ fun TopBar(
                 tabIndex.value = 1
                 selectedItem.value = "repeat"
                 navController.navigate("repeat") {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
                     }
+                    launchSingleTop = true
+                    restoreState = true
                 }
             },
             text = {
@@ -62,7 +66,7 @@ fun TopBar(
                     Spacer(modifier = Modifier.padding(end = 4.dp))
                     if (badgeCountLearning.value != 0) {
                         Icon(
-                            painter = painterResource(id = R.drawable.circle),
+                            painter = painterResource(id = R.drawable.fill_circle),
                             contentDescription = null,
                             tint = colorScheme.error
                         )

@@ -33,57 +33,78 @@ fun ListLessonsScreen(
     navController: NavHostController,
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
-    listLessonsVM: ListLessonsVM
+    listLessonsVM: ListLessonsVM,
+    tabIndex: MutableState<Int>,
+    selectedLesson: MutableState<Int>
 ){
-    val tabIndex = remember { mutableStateOf(0) }
-    val listLessons = listLessonsVM.listLessons
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
         Column(modifier = Modifier.weight(8f)) {
-            ListLessons(listLessons.value)
+            ListLessons(listLessonsVM.listLessons.value, navController, selectedLesson)
         }
     }
 }
 
 
 @Composable
-fun ListLessons(listLessons : List<Lesson>){
-   LazyColumn(
-       userScrollEnabled = true,
-       modifier = Modifier.fillMaxSize(),
-       verticalArrangement = Arrangement.Center,
-       horizontalAlignment = Alignment.CenterHorizontally
-   ){
-       itemsIndexed(listLessons) {_, item ->
-           if(item.number == 1) {
-               Spacer(modifier = Modifier.padding(12.dp))
-           }
-           if(item.completed) {
-               Button(
-                   onClick = {},
-                   modifier = Modifier.width(280.dp)
-               ) {
-                   Text(
-                       text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
-                       textAlign = TextAlign.Center
-                   )
-               }
-           } else {
-               OutlinedButton(
-                   onClick = {},
-                   modifier = Modifier.width(280.dp)
-               ) {
-                   Text(
-                       text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
-                       textAlign = TextAlign.Center
-                   )
+fun ListLessons(
+    listLessons : List<Lesson>,
+    navController: NavHostController,
+    selectedLesson: MutableState<Int>
+    ) {
+    LazyColumn(
+        userScrollEnabled = true,
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        itemsIndexed(listLessons) { _, item ->
+            if (item.number == 1) {
+                Spacer(modifier = Modifier.padding(12.dp))
+            }
+            if (item.completed) {
+                Button(
+                    onClick = {
+                        selectedLesson.value = item.number
+                        navController.navigate("lesson") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    modifier = Modifier.width(280.dp)
+                ) {
+                    Text(
+                        text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
+                        textAlign = TextAlign.Center
+                    )
+                }
+            } else {
+                OutlinedButton(
+                    onClick = {
+                        navController.navigate("lesson") {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
+                    modifier = Modifier.width(280.dp)
+                ) {
+                    Text(
+                        text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
+                        textAlign = TextAlign.Center
+                    )
 
-               }
-           }
-           Spacer(modifier = Modifier.padding(12.dp))
-       }
-   }
+                }
+            }
+            Spacer(modifier = Modifier.padding(12.dp))
+        }
+    }
 }
 

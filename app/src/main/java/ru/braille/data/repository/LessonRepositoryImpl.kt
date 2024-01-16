@@ -2,12 +2,12 @@ package ru.braille.data.repository
 
 import ru.braille.data.room.Dao
 import ru.braille.domain.entities.Lesson
-import ru.braille.domain.repository.ListLessonsRepository
+import ru.braille.domain.repository.LessonRepository
 import javax.inject.Inject
 
-class ListLessonsRepositoryImpl @Inject constructor(
+class LessonRepositoryImpl @Inject constructor(
     private val dao: Dao
-) : ListLessonsRepository {
+) : LessonRepository {
     override suspend fun getListLessons(): List<Lesson> {
         val listLessons = arrayListOf<Lesson>()
         val listLessonsDB = dao.getListLessons()

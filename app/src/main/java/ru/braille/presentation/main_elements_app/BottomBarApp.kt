@@ -39,15 +39,14 @@ fun BottomBar(
                     selectedItem.value ==  "lesson" ||
                     selectedItem.value == "repeat",
             onClick = {
-                if(navController.currentDestination?.route != "lesson") {
-                    navController.navigate("list_lessons") {
-                        popUpTo(navController.graph.id) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
+                navController.navigate("list_lessons") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
                     }
-                    selectedItem.value = "list_lessons"
+                    launchSingleTop = true
+                    restoreState = true
                 }
+                selectedItem.value = "list_lessons"
             },
             label = { Text("Обучение") },
             icon = {
@@ -79,10 +78,11 @@ fun BottomBar(
             selected = selectedItem.value == "exerciser",
             onClick = {
                 navController.navigate("exerciser") {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
                     }
                     launchSingleTop = true
+                    restoreState = true
                 }
                 selectedItem.value = "exerciser"
             },
@@ -108,10 +108,11 @@ fun BottomBar(
             selected = selectedItem.value == "dictionary",
             onClick = {
                 navController.navigate("dictionary") {
-                    popUpTo(navController.graph.id) {
-                        inclusive = true
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
                     }
                     launchSingleTop = true
+                    restoreState = true
                 }
                 selectedItem.value = "dictionary"
             },

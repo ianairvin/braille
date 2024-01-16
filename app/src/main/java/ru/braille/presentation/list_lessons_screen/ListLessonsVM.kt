@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.braille.domain.entities.Lesson
-import ru.braille.domain.use_case.list_lessons_use_case.GetListLessonsUseCase
+import ru.braille.domain.use_case.lesson_use_case.GetListLessonsUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class ListLessonsVM @Inject constructor (
-    val getListLessonsUseCase: GetListLessonsUseCase
+    private val getListLessonsUseCase: GetListLessonsUseCase
 ): ViewModel() {
     var listLessons = mutableStateOf(emptyList<Lesson>())
     private fun getList() = viewModelScope.launch{

@@ -21,6 +21,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
@@ -30,6 +31,7 @@ import ru.braille.ui.theme.BrailleTheme
 class MainActivity : ComponentActivity() {
 
     private val listLessonsViewModel by viewModels<ListLessonsVM>()
+    private val lessonViewModel by viewModels<LessonVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -54,7 +56,8 @@ class MainActivity : ComponentActivity() {
                         AppNavHost(
                             navController,
                             badgeCountLearning,
-                            listLessonsViewModel)
+                            listLessonsViewModel,
+                            lessonViewModel)
                     }
                 }
             }

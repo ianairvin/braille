@@ -6,10 +6,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.braille.data.repository.ListLessonsRepositoryImpl
+import ru.braille.data.repository.LessonRepositoryImpl
+import ru.braille.data.repository.SymbolRepositoryImpl
 import ru.braille.data.room.DataBase
 import ru.braille.data.room.InitializeDB
-import ru.braille.domain.repository.ListLessonsRepository
+import ru.braille.domain.repository.LessonRepository
+import ru.braille.domain.repository.SymbolRepository
 import javax.inject.Singleton
 
 @Module
@@ -28,7 +30,13 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideListLessonsRepository(db: DataBase) : ListLessonsRepository {
-        return ListLessonsRepositoryImpl(db.dao)
+    fun provideLessonRepository(db: DataBase) : LessonRepository {
+        return LessonRepositoryImpl(db.dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSymbolRepository(db: DataBase) : SymbolRepository {
+        return SymbolRepositoryImpl(db.dao)
     }
 }

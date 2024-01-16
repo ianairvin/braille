@@ -3,7 +3,7 @@ package ru.braille.data.room.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "list_lessons")
+@Entity(tableName = "lesson")
 data class LessonDB(
     @PrimaryKey val number: Int,
     val symbol1: String,

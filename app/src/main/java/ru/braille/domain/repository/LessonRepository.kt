@@ -2,6 +2,6 @@ package ru.braille.domain.repository
 
 import ru.braille.domain.entities.Lesson
 
-interface ListLessonsRepository {
+interface LessonRepository {
     suspend fun getListLessons() : List<Lesson>
 }
