@@ -1,5 +1,6 @@
 package ru.braille.data.repository
 
+import android.util.Log
 import ru.braille.data.room.Dao
 import ru.braille.data.room.entities.SymbolDB
 import ru.braille.domain.entities.Symbol
@@ -43,5 +44,9 @@ class SymbolRepositoryImpl @Inject constructor(
             symbols.add(item)
         }
         return symbols
+    }
+
+    override suspend fun getAllSymbols(): List<String> {
+        return dao.getAllSymbols()
     }
 }
