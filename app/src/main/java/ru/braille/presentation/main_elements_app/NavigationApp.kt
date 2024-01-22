@@ -7,8 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.braille.presentation.dictionary.DictionaryScreen
-import ru.braille.presentation.dictionary.DictionaryVM
+import ru.braille.presentation.dictionary_screen.DictionaryScreen
+import ru.braille.presentation.dictionary_screen.DictionaryVM
+import ru.braille.presentation.exerciser_screen.ExerciserScreen
+import ru.braille.presentation.exerciser_screen.ExerciserVM
 import ru.braille.presentation.lesson_screen.LessonScreen
 import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsScreen
@@ -20,7 +22,8 @@ fun AppNavHost(
     badgeCountLearning: MutableState<Int>,
     listLessonsVM: ListLessonsVM,
     lessonVM: LessonVM,
-    dictionaryVM: DictionaryVM
+    dictionaryVM: DictionaryVM,
+    exerciserVM: ExerciserVM
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
@@ -52,7 +55,7 @@ fun AppNavHost(
             //RepeatScreen(contentPadding)
         }
         composable(route = "exerciser"){
-            //ExerciserScreen(contentPadding)
+            ExerciserScreen(exerciserVM)
 
         }
         composable(route = "dictionary"){
