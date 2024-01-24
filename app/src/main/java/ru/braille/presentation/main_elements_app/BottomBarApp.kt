@@ -35,6 +35,37 @@ fun BottomBar(
         else surfaceContainerLight
     ) {
         NavigationBarItem(
+            selected = selectedItem.value == "exerciser",
+            onClick = {
+                navController.navigate("exerciser") {
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+                selectedItem.value = "exerciser"
+            },
+            label = { Text("Тренажер") },
+            icon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.exerciser),
+                    contentDescription = null
+                )
+            },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
+                else MaterialTheme.colorScheme.secondary,
+                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                selectedTextColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
+                else MaterialTheme.colorScheme.secondary,
+                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
+                else surfaceContainerLight
+            )
+        )
+
+        NavigationBarItem(
             selected = selectedItem.value == "list_lessons" ||
                     selectedItem.value ==  "lesson" ||
                     selectedItem.value == "repeat",
@@ -74,36 +105,7 @@ fun BottomBar(
                 else surfaceContainerLight
             )
         )
-        NavigationBarItem(
-            selected = selectedItem.value == "exerciser",
-            onClick = {
-                navController.navigate("exerciser") {
-                    popUpTo(navController.graph.startDestinationId) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
-                selectedItem.value = "exerciser"
-            },
-            label = { Text("Тренажер") },
-            icon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.exerciser),
-                    contentDescription = null
-                )
-            },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                selectedTextColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
-                else surfaceContainerLight
-            )
-        )
+
         NavigationBarItem(
             selected = selectedItem.value == "dictionary",
             onClick = {

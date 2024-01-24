@@ -15,6 +15,8 @@ import ru.braille.presentation.lesson_screen.LessonScreen
 import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsScreen
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
+import ru.braille.presentation.statistics_screen.StatisticsScreen
+import ru.braille.presentation.statistics_screen.StatisticsVM
 
 @Composable
 fun AppNavHost(
@@ -23,7 +25,8 @@ fun AppNavHost(
     listLessonsVM: ListLessonsVM,
     lessonVM: LessonVM,
     dictionaryVM: DictionaryVM,
-    exerciserVM: ExerciserVM
+    exerciserVM: ExerciserVM,
+    statisticsVM: StatisticsVM
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
@@ -55,8 +58,10 @@ fun AppNavHost(
             //RepeatScreen(contentPadding)
         }
         composable(route = "exerciser"){
-            ExerciserScreen(exerciserVM)
-
+            ExerciserScreen(navController, exerciserVM)
+        }
+        composable(route = "statistics"){
+            StatisticsScreen(statisticsVM)
         }
         composable(route = "dictionary"){
             DictionaryScreen(dictionaryVM)

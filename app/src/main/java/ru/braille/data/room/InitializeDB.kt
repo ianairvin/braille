@@ -6,9 +6,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 class InitializeDB : RoomDatabase.Callback(){
     override fun onCreate(db: SupportSQLiteDatabase){
         super.onCreate(db)
-
         initListLessons(db)
         initSymbol(db)
+        initSymbolStatistics(db)
     }
 }
 
@@ -125,15 +125,84 @@ fun initSymbol(db: SupportSQLiteDatabase) {
             " values ('Ы', 10, false," +
             " false, true, true, false, true, true)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Ь', 10, false," +
+            " values ('Ь', 10, true," +
             " false, true, true, true, true, true)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Э', 11, false," +
+            " values ('Э', 11, true," +
             " false, true, true, false, false, true)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Ю', 11, false," +
+            " values ('Ю', 11, true," +
             " true, false, true, true, false, true)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Я', 11, false," +
+            " values ('Я', 11, true," +
             " true, true, true, false, false, true)")
+}
+
+fun initSymbolStatistics(db: SupportSQLiteDatabase){
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('А', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Б', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('В', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Г', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Д', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Е', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ё', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ж', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('З', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('И', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Й', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('К', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Л', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('М', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Н', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('О', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('П', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Р', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('С', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Т', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('У', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ф', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Х', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ц', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ч', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ш', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Щ', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ъ', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ы', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ь', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Э', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Ю', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, skip, wrong) " +
+            "values ('Я', 0, 0, 0)")
 }

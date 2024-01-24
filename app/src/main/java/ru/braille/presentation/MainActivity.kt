@@ -27,6 +27,7 @@ import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
+import ru.braille.presentation.statistics_screen.StatisticsVM
 import ru.braille.ui.theme.BrailleTheme
 
 @AndroidEntryPoint
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
     private val lessonViewModel by viewModels<LessonVM>()
     private val dictionaryViewModel by viewModels<DictionaryVM>()
     private val exerciserViewModel by viewModels<ExerciserVM>()
+    private val statisticsViewModel by viewModels<StatisticsVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -63,7 +65,8 @@ class MainActivity : ComponentActivity() {
                             listLessonsViewModel,
                             lessonViewModel,
                             dictionaryViewModel,
-                            exerciserViewModel)
+                            exerciserViewModel,
+                            statisticsViewModel)
                     }
                 }
             }
