@@ -7,6 +7,5 @@ import androidx.room.PrimaryKey
 data class SymbolStatisticsDB (
     @PrimaryKey val symbol: String,
     var right: Int,
-    var skip: Int,
     var wrong: Int
 )

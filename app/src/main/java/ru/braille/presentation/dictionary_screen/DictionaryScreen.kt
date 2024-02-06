@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,12 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.braille.ui.theme.InterFamily
 
 @Composable
 fun DictionaryScreen(
     dictionaryVM: DictionaryVM
 ) {
-    val interactionSource = MutableInteractionSource()
+    val interactionSource = remember { MutableInteractionSource()}
     val list = remember{dictionaryVM.symbols}
 
     val scrollState = rememberScrollState()
@@ -90,7 +92,7 @@ fun ButtonRow(
                     .width(60.dp)
                     .height(60.dp),
                 elevation = ButtonDefaults.elevatedButtonElevation(
-                    defaultElevation = 8.dp
+                    defaultElevation = 4.dp
                 ),
                 shape = ShapeDefaults.Medium,
                 content = {
@@ -98,6 +100,7 @@ fun ButtonRow(
                         text = buttonText,
                         fontWeight = FontWeight.Bold,
                         fontSize = 26.sp,
+                        fontFamily = InterFamily,
                         textAlign = TextAlign.Center, 
                         modifier = Modifier.align(Alignment.CenterVertically)
                         )
@@ -106,6 +109,6 @@ fun ButtonRow(
         }
     }
     if (buttonGroup[0] != "Э") {
-        Divider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+        HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
     }
 }

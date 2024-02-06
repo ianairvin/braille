@@ -23,14 +23,14 @@ interface Dao {
     suspend fun getAllSymbols() : List<String>
 
     @Query("SELECT * FROM symbol_table WHERE completed = 1")
-    fun getAllLearnedSymbols() : Flow<List<SymbolDB>>
+    suspend fun getAllLearnedSymbols() : List<SymbolDB>
 
     @Query("SELECT * FROM symbol_statistics_table WHERE symbol = :symbol")
     suspend fun getSymbolStatistics(symbol: String) : SymbolStatisticsDB
 
     @Query("SELECT * FROM symbol_statistics_table")
-    suspend fun getAllSymbolStatistics() : List<SymbolStatisticsDB>
+    fun getAllSymbolStatistics() : Flow<List<SymbolStatisticsDB>>
 
-    @Update
-    suspend fun updateSymbolStatistics(statistics: SymbolStatisticsDB)
+    @Query("UPDATE symbol_statistics_table SET `right` = :right, `wrong` = :wrong WHERE symbol = :symbol")
+    suspend fun updateSymbolStatistics(symbol: String, right: Int, wrong: Int)
 }

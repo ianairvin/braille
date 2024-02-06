@@ -1,12 +1,10 @@
 package ru.braille.presentation.exerciser_screen
 
-import androidx.compose.runtime.collectAsState
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.entities.SymbolStatistics
@@ -21,26 +19,42 @@ class ExerciserVM @Inject constructor(
     private val updateSymbolStatistics: UpdateSymbolStatisticsUseCase,
     private val getSymbolStatistics: GetSymbolStatisticsUseCase
 ) : ViewModel() {
-    var listLearnedSymbols = flowOf<List<Symbol>>()
+    var listLearnedSymbols = mutableStateOf(emptyList<Symbol>())
     var currentSymbol = mutableStateOf(Symbol(
         "А", 1, true, false, false, false, false, false, false)
     )
     var currentSymbolStatistics = mutableStateOf(SymbolStatistics(
-        "А", 0, 0, 0)
+        "А", 0, 0)
     )
-    fun getSymbols() = viewModelScope.launch{
-        listLearnedSymbols = getAllLearnedSymbols()
-        currentSymbol.value = listLearnedSymbols.toList()[1].random()
+
+    val wasWrongButtonPush =  mutableStateOf(false)
+    val wasSymbolRight =  mutableStateOf(false)
+    val wasSymbolWrong = mutableStateOf(false)
+
+    fun getFirstSymbol() = viewModelScope.launch{
+        listLearnedSymbols.value = getAllLearnedSymbols()
+        currentSymbol.value = listLearnedSymbols.value.random()
+        findSymbolStatistics()
+    }
+
+    fun getSymbol() = viewModelScope.launch{
+        val symbol = currentSymbol.value.symbol
+        while (currentSymbol.value.symbol == symbol) {
+            currentSymbol.value = listLearnedSymbols.value.random()
+        }
         findSymbolStatistics()
     }
     fun findSymbolStatistics() = viewModelScope.launch {
         currentSymbolStatistics.value = getSymbolStatistics(currentSymbol.value.symbol)
     }
     fun updateStatiscticsSymbol() = viewModelScope.launch {
-        updateSymbolStatistics(currentSymbolStatistics.value)
+        updateSymbolStatistics(
+            currentSymbolStatistics.value.symbol,
+            currentSymbolStatistics.value.right,
+            currentSymbolStatistics.value.wrong)
     }
     init{
-        getSymbols()
+        getFirstSymbol()
     }
 
     var dot1 = mutableStateOf(false)

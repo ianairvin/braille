@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UpdateSymbolStatisticsUseCase @Inject constructor(
     private val statisticsRepository: StatisticsRepository
 ) {
-    suspend operator fun invoke(symbol: SymbolStatistics){
-        statisticsRepository.updateSymbolStatistics(symbol)
+    suspend operator fun invoke(symbol: String, right: Int, wrong: Int){
+        statisticsRepository.updateSymbolStatistics(symbol, right, wrong)
     }
 }

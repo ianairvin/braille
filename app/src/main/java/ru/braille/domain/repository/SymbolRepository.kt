@@ -7,5 +7,5 @@ interface SymbolRepository {
     suspend fun getSymbol(findSymbol: String) : Symbol
     suspend fun getSymbolsOfLesson(findSymbols: Int) : List<Symbol>
     suspend fun getAllSymbols() : List<String>
-    fun getAllLearnedSymbols() : Flow<List<Symbol>>
+    suspend fun getAllLearnedSymbols() : List<Symbol>
 }

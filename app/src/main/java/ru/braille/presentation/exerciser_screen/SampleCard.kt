@@ -13,16 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.entities.SymbolStatistics
+import ru.braille.ui.theme.InterFamily
 
 val interactionSource = MutableInteractionSource()
 
@@ -37,27 +38,47 @@ val interactionSource = MutableInteractionSource()
 fun SurfaceSymbol(
     currentSymbol: MutableState<Symbol>,
     currentStatisticsSymbol: MutableState<SymbolStatistics>,
-    listSymbols: State<List<Symbol>>,
     dot1: MutableState<Boolean>,
     dot2: MutableState<Boolean>,
     dot3: MutableState<Boolean>,
     dot4: MutableState<Boolean>,
     dot5: MutableState<Boolean>,
     dot6: MutableState<Boolean>,
-    exerciserVM: ExerciserVM
+    exerciserVM: ExerciserVM,
+    wasWrongButtonPush: MutableState<Boolean>,
+    wasSymbolRight: MutableState<Boolean>,
+    wasSymbolWrong: MutableState<Boolean>
 ) {
     Column() {
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(580.dp),
-            shape = MaterialTheme.shapes.large
+                .height(640.dp),
+            shape = MaterialTheme.shapes.large,
+            elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(8.dp)
             ) {
                 Row(
-                    modifier = Modifier.weight(2f).fillMaxWidth(),
+                    modifier = Modifier.weight(0.35f).fillMaxWidth().padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    if(wasSymbolRight.value){
+                        Text(
+                            text = "Верно",
+                            fontWeight = FontWeight.Medium,
+                            color = Color(0xFF03C03C))
+                    }
+                    if(wasSymbolWrong.value){
+                        Text(text = "Неверно",
+                            fontWeight = FontWeight.Medium,
+                            color = Color(0xFFD05340))
+                    }
+                }
+                Row(
+                    modifier = Modifier.weight(2.5f).fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -68,12 +89,14 @@ fun SurfaceSymbol(
                         dot3,
                         dot4,
                         dot5,
-                        dot6
+                        dot6,
+                        wasSymbolRight,
+                        wasWrongButtonPush
                     )
                 }
                 Column(modifier = Modifier
                     .weight(1f)
-                    .padding(start = 8.dp, end = 8.dp)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
                 ) {
 
                     Row(
@@ -81,30 +104,21 @@ fun SurfaceSymbol(
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.fillMaxWidth().weight(1f)
                     ) {
-                        Button(
-                            onClick = {
-                                      if (dot1.value == currentSymbol.value.dot1
-                                          && dot2.value == currentSymbol.value.dot2
-                                          && dot3.value == currentSymbol.value.dot3
-                                          && dot4.value == currentSymbol.value.dot4
-                                          && dot5.value == currentSymbol.value.dot5
-                                          && dot6.value == currentSymbol.value.dot6
-                                      ) {
-                                          currentStatisticsSymbol.value.right += 1
-                                          exerciserVM.updateStatiscticsSymbol()
-
-                                      } else {
-                                          currentStatisticsSymbol.value.wrong += 1
-                                          exerciserVM.updateStatiscticsSymbol()
-                                      }
-                                      },
-                        ) {
-                            Text(
-                                text = "Проверить"
-                            )
-                        }
+                        RightButton(
+                            wasSymbolRight,
+                            wasSymbolWrong,
+                            wasWrongButtonPush,
+                            dot1,
+                            dot2,
+                            dot3,
+                            dot4,
+                            dot5,
+                            dot6,
+                            currentSymbol,
+                            currentStatisticsSymbol,
+                            exerciserVM
+                        )
                     }
-
 
                     Row(
                         horizontalArrangement = Arrangement.Center,
@@ -113,16 +127,20 @@ fun SurfaceSymbol(
                     ) {
                         Button(
                             onClick = {
-                                dot1.value = currentSymbol.value.dot1
-                                dot2.value = currentSymbol.value.dot2
-                                dot3.value = currentSymbol.value.dot3
-                                dot4.value = currentSymbol.value.dot4
-                                dot5.value = currentSymbol.value.dot5
-                                dot6.value = currentSymbol.value.dot6
+                                if (!wasWrongButtonPush.value && !wasSymbolRight.value) {
+                                    dot1.value = currentSymbol.value.dot1
+                                    dot2.value = currentSymbol.value.dot2
+                                    dot3.value = currentSymbol.value.dot3
+                                    dot4.value = currentSymbol.value.dot4
+                                    dot5.value = currentSymbol.value.dot5
+                                    dot6.value = currentSymbol.value.dot6
 
-                                currentStatisticsSymbol.value.skip += 1
-                                exerciserVM.updateStatiscticsSymbol()
-                                      },
+                                    currentStatisticsSymbol.value.wrong += 1
+                                    exerciserVM.updateStatiscticsSymbol()
+                                    wasWrongButtonPush.value = true
+                                    wasSymbolWrong.value = true
+                                }
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.background,
                                 contentColor = MaterialTheme.colorScheme.onBackground,
@@ -143,26 +161,46 @@ fun SurfaceSymbol(
                                     modifier = Modifier
                                         .height(24.dp)
                                         .width(24.dp)
-                                        .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                                        .padding(0.dp, 0.dp, 6.dp, 0.dp),
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
-                                Text("Не помню")
+                                Text(
+                                    text = "Не помню",
+                                    fontFamily = InterFamily
+                                )
                             }
                         }
                         Button(
                             onClick = {
+                                if(
+                                    !dot1.value &&
+                                    !dot2.value &&
+                                    !dot3.value &&
+                                    !dot4.value &&
+                                    !dot5.value &&
+                                    !dot6.value &&
+                                    !wasSymbolRight.value
+                                ) {
+                                    currentStatisticsSymbol.value.wrong += 1
+                                    exerciserVM.updateStatiscticsSymbol()
+                                }
+                                exerciserVM.getSymbol()
+                                /*
                                 val symbol = currentSymbol.value
                                 currentSymbol.value = listSymbols.value.random()
-                                while(currentSymbol.value == symbol){
+                                while (currentSymbol.value == symbol) {
                                     currentSymbol.value = listSymbols.value.random()
-                                }
+                                }*/
                                 dot1.value = false
                                 dot2.value = false
                                 dot3.value = false
                                 dot4.value = false
                                 dot5.value = false
                                 dot6.value = false
-                                      },
+                                wasWrongButtonPush.value = false
+                                wasSymbolRight.value = false
+                                wasSymbolWrong.value = false
+                            },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.background,
                                 contentColor = MaterialTheme.colorScheme.onBackground,
@@ -175,7 +213,7 @@ fun SurfaceSymbol(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.End
                             ) {
-                                Text("Следующий")
+                                Text(text = "Следующий", fontFamily = InterFamily)
                                 Icon(
                                     painter = painterResource(
                                         id = R.drawable.arrow_forward
@@ -184,7 +222,7 @@ fun SurfaceSymbol(
                                     modifier = Modifier
                                         .height(24.dp)
                                         .width(24.dp)
-                                        .padding(6.dp, 0.dp, 6.dp, 0.dp),
+                                        .padding(4.dp, 0.dp, 0.dp, 0.dp),
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
                             }
@@ -204,18 +242,21 @@ fun Symbol(
     dot3: MutableState<Boolean>,
     dot4: MutableState<Boolean>,
     dot5: MutableState<Boolean>,
-    dot6: MutableState<Boolean>
+    dot6: MutableState<Boolean>,
+    wasSymbolRight: MutableState<Boolean>,
+    wasWrongButtonPush: MutableState<Boolean>
     ){
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ){
-        Spacer(modifier = Modifier.weight(3f))
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             text = currentSymbol.value.symbol,
             fontSize = 64.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontFamily = InterFamily
         )
         Spacer(modifier = Modifier.weight(1f))
         Row(
@@ -229,16 +270,22 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot1.value = !dot1.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot1.value = !dot1.value
+                            })
+                       },
                 tint = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -248,16 +295,22 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot2.value = !dot2.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot2.value = !dot2.value
+                            })
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -272,16 +325,22 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot3.value = !dot3.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot3.value = !dot3.value
+                            })
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -291,16 +350,22 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot4.value = !dot4.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot4.value = !dot4.value
+                            })
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
         }
@@ -315,16 +380,22 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot5.value = !dot5.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot5.value = !dot5.value
+                            })
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -334,19 +405,67 @@ fun Symbol(
                     else R.drawable.outline_circle
                 ),
                 contentDescription = null,
-                modifier = Modifier
-                    .height(54.dp)
-                    .width(54.dp)
-                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                    .clickable (
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            dot6.value = !dot6.value
-                        }),
+                modifier =
+                if (wasSymbolRight.value || wasWrongButtonPush.value) {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                } else {
+                    Modifier.height(54.dp)
+                        .width(54.dp)
+                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {
+                                dot6.value = !dot6.value
+                            })
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
         }
-        Spacer(modifier = Modifier.weight(2f))
+        Spacer(modifier = Modifier.weight(1f))
+    }
+}
+
+@Composable
+fun RightButton(
+    wasSymbolRight: MutableState<Boolean>,
+    wasSymbolWrong: MutableState<Boolean>,
+    wasWrongButtonPush: MutableState<Boolean>,
+    dot1: MutableState<Boolean>,
+    dot2: MutableState<Boolean>,
+    dot3: MutableState<Boolean>,
+    dot4: MutableState<Boolean>,
+    dot5: MutableState<Boolean>,
+    dot6: MutableState<Boolean>,
+    currentSymbol: MutableState<Symbol>,
+    currentStatisticsSymbol: MutableState<SymbolStatistics>,
+    exerciserVM: ExerciserVM
+){
+    Button(
+        onClick = {
+            if (!wasSymbolRight.value &&  !wasWrongButtonPush.value &&
+                dot1.value == currentSymbol.value.dot1 &&
+                dot2.value == currentSymbol.value.dot2 &&
+                dot3.value == currentSymbol.value.dot3 &&
+                dot4.value == currentSymbol.value.dot4 &&
+                dot5.value == currentSymbol.value.dot5 &&
+                dot6.value == currentSymbol.value.dot6
+            ) {
+                currentStatisticsSymbol.value.right += 1
+                exerciserVM.updateStatiscticsSymbol()
+                wasSymbolRight.value = true
+                wasSymbolWrong.value = false
+            } else if(!wasWrongButtonPush.value && !wasSymbolRight.value){
+                currentStatisticsSymbol.value.wrong += 1
+                exerciserVM.updateStatiscticsSymbol()
+                wasSymbolWrong.value = true
+            } },
+    ) {
+        Text(
+            text = "Проверить",
+            fontFamily = InterFamily
+        )
     }
 }

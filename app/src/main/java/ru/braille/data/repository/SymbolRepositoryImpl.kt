@@ -1,15 +1,10 @@
 package ru.braille.data.repository
 
 import android.util.Log
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import ru.braille.data.room.Dao
 import ru.braille.data.room.entities.SymbolDB
 import ru.braille.domain.entities.Symbol
-import ru.braille.domain.entities.SymbolStatistics
 import ru.braille.domain.repository.SymbolRepository
-import java.time.Instant
-import java.time.ZoneId
 import javax.inject.Inject
 
 class SymbolRepositoryImpl @Inject constructor(
@@ -54,24 +49,24 @@ class SymbolRepositoryImpl @Inject constructor(
         return dao.getAllSymbols()
     }
 
-    override fun getAllLearnedSymbols() : Flow<List<Symbol>>{
-        val symbolsBeforeMapping = dao.getAllLearnedSymbols()
-        val symbolsAfterMapping : Flow<List<Symbol>> = symbolsBeforeMapping.map {
-                list -> list.map {
-                it -> Symbol(
-                    it.symbol,
-                    it.numberOfLesson,
-                    it.completed,
-                    it.dot1,
-                    it.dot2,
-                    it.dot3,
-                    it.dot4,
-                    it.dot5,
-                    it.dot6
-                )
-            }
+    override suspend fun getAllLearnedSymbols() : List<Symbol>{
+        val symbolsDB = dao.getAllLearnedSymbols()
+        val symbols = arrayListOf<Symbol>()
+        symbolsDB.forEach{
+            val item = Symbol(
+                it.symbol,
+                it.numberOfLesson,
+                it.completed,
+                it.dot1,
+                it.dot2,
+                it.dot3,
+                it.dot4,
+                it.dot5,
+                it.dot6
+            )
+            symbols.add(item)
         }
-        return symbolsAfterMapping
+        return if (symbols.isEmpty()) emptyList<Symbol>() else symbols
     }
 
 

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAllLearnedSymbolsUseCase @Inject constructor(
     private val symbolRepository: SymbolRepository
 ) {
-    operator fun invoke() : Flow<List<Symbol>> {
+    suspend operator fun invoke() : List<Symbol> {
         return symbolRepository.getAllLearnedSymbols()
     }
 }
