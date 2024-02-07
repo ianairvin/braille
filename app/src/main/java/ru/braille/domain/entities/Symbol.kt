@@ -1,7 +1,7 @@
 package ru.braille.domain.entities
 
 data class Symbol (
-    val symbol: String,
+    var symbol: String,
     val numberOfLesson: Int,
     var completed: Boolean,
     val dot1: Boolean,

@@ -1,5 +1,6 @@
 package ru.braille.presentation.lesson_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
+import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.TopBar
 
 @Composable
@@ -32,150 +34,30 @@ fun LessonScreen(
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
     lessonVM: LessonVM,
-    tabIndex: MutableState<Int>,
-    selectedLesson: MutableState<Int>
+    listLessonsVM: ListLessonsVM,
+    tabIndex: MutableState<Int>
 ) {
-    lessonVM.numberOfLesson.value = selectedLesson.value
-    Column(
+    lessonVM.selectedLesson.value = listLessonsVM.selectedLesson.value
+    lessonVM.getSymbols()
+    Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
-        Lesson(lessonVM.symbols.value, selectedLesson)
-    }
-}
-
-@Composable
-fun Lesson(symbols: List<Symbol>, selectedLesson: MutableState<Int>) {
-    Column(modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Card(
-            modifier = Modifier.padding(top = 48.dp, bottom = 48.dp, start = 32.dp, end = 32.dp).fillMaxSize(),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = colorScheme.surface
-            )
-        ) {
-            val firstSymbol = symbols[0].symbol
-            val secondSymbol = symbols[1].symbol
-            val thirdSymbol = symbols[2].symbol
-            Text(
-                text = "Урок $selectedLesson\n буквы $firstSymbol, $secondSymbol и $thirdSymbol",
-                color = colorScheme.surfaceVariant,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(start = 8.dp, top = 6.dp)
-            )
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Spacer(modifier = Modifier.weight(3f))
-                Text(
-                    text = "А",
-                    fontSize = 64.sp,
-                    fontWeight = FontWeight.Bold
-                    )
-                Spacer(modifier = Modifier.weight(1f))
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (true)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                    Icon(
-                        painter = painterResource(
-                            id = if (false)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (false)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                    Icon(
-                        painter = painterResource(
-                            id = if (false)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = if (false)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                    Icon(
-                        painter = painterResource(
-                            id = if (false)
-                                R.drawable.fill_circle
-                            else R.drawable.outline_circle
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .height(54.dp)
-                            .width(54.dp)
-                            .padding(6.dp, 0.dp, 6.dp, 0.dp),
-                        tint = colorScheme.primary
-                    )
-                }
-                Spacer(modifier = Modifier.weight(3f))
-            }
-        }
+        SurfaceSymbolLesson(
+            lessonVM.selectedLesson,
+            lessonVM.symbolsLesson,
+            lessonVM.symbolsAreNotLearning,
+            lessonVM.currentSymbol,
+            lessonVM.dot1,
+            lessonVM.dot2,
+            lessonVM.dot3,
+            lessonVM.dot4,
+            lessonVM.dot5,
+            lessonVM.dot6,
+            lessonVM,
+            lessonVM.wasWrongButtonPush,
+            lessonVM.wasSymbolRight,
+            lessonVM.wasSymbolWrong,
+        )
     }
 }

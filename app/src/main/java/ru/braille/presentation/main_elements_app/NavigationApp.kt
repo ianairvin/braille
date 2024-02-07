@@ -30,7 +30,6 @@ fun AppNavHost(
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
-    val selectedLesson = remember { mutableStateOf(0) }
 
     NavHost(navController = navController, startDestination = "list_lessons") {
 
@@ -40,8 +39,7 @@ fun AppNavHost(
                 selectedItem,
                 badgeCountLearning,
                 listLessonsVM,
-                tabIndex,
-                selectedLesson
+                tabIndex
                 )
         }
         composable(route = "lesson"){
@@ -50,8 +48,8 @@ fun AppNavHost(
                 selectedItem,
                 badgeCountLearning,
                 lessonVM,
-                tabIndex,
-                selectedLesson
+                listLessonsVM,
+                tabIndex
             )
         }
         composable(route = "repeat"){

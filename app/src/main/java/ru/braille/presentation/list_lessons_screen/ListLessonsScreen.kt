@@ -1,5 +1,6 @@
 package ru.braille.presentation.list_lessons_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,15 +30,14 @@ fun ListLessonsScreen(
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
     listLessonsVM: ListLessonsVM,
-    tabIndex: MutableState<Int>,
-    selectedLesson: MutableState<Int>
+    tabIndex: MutableState<Int>
 ){
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
         Column(modifier = Modifier.weight(8f)) {
-            ListLessons(listLessonsVM.listLessons.value, navController, selectedLesson)
+            ListLessons(listLessonsVM.listLessons.value, navController, listLessonsVM.selectedLesson)
         }
     }
 }
@@ -83,6 +83,7 @@ fun ListLessons(
             } else {
                 OutlinedButton(
                     onClick = {
+                        selectedLesson.value = item.number
                         navController.navigate("lesson") {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true

@@ -69,5 +69,19 @@ class SymbolRepositoryImpl @Inject constructor(
         return if (symbols.isEmpty()) emptyList<Symbol>() else symbols
     }
 
+    override suspend fun updateSymbol(symbol: Symbol) {
+        val symbolDB = SymbolDB(
+            symbol.symbol,
+            symbol.numberOfLesson,
+            symbol.completed,
+            symbol.dot1,
+            symbol.dot2,
+            symbol.dot3,
+            symbol.dot4,
+            symbol.dot5,
+            symbol.dot6,
+        )
+        dao.updateSymbol(symbolDB)
+    }
 
 }

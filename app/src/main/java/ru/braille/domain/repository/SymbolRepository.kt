@@ -8,4 +8,6 @@ interface SymbolRepository {
     suspend fun getSymbolsOfLesson(findSymbols: Int) : List<Symbol>
     suspend fun getAllSymbols() : List<String>
     suspend fun getAllLearnedSymbols() : List<Symbol>
+
+    suspend fun updateSymbol(symbol: Symbol)
 }

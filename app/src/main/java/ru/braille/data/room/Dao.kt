@@ -33,4 +33,7 @@ interface Dao {
 
     @Query("UPDATE symbol_statistics_table SET `right` = :right, `wrong` = :wrong WHERE symbol = :symbol")
     suspend fun updateSymbolStatistics(symbol: String, right: Int, wrong: Int)
+
+    @Update
+    suspend fun updateSymbol(symbol: SymbolDB)
 }
