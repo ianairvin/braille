@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 data class SymbolDB (
     @PrimaryKey val symbol: String,
     val numberOfLesson: Int,
-    var completed: Boolean,
-    val dot1: Boolean,
-    val dot2: Boolean,
-    val dot3: Boolean,
-    val dot4: Boolean,
-    val dot5: Boolean,
-    val dot6: Boolean
+    var completed: Int,
+    val dot1: Int,
+    val dot2: Int,
+    val dot3: Int,
+    val dot4: Int,
+    val dot5: Int,
+    val dot6: Int
 )

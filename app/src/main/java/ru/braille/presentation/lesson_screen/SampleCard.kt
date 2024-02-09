@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,23 +24,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
-import ru.braille.domain.entities.SymbolStatistics
 import ru.braille.ui.theme.InterFamily
 
 val interactionSource = MutableInteractionSource()
 
 @Composable
-fun SurfaceSymbolLesson(
-    selectedLesson: MutableState<Int>,
-    symbolsLesson: MutableState<List<Symbol>>,
-    symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
+fun SampleCard(
     currentSymbol: MutableState<Symbol>,
     dot1: MutableState<Boolean>,
     dot2: MutableState<Boolean>,
@@ -50,141 +50,158 @@ fun SurfaceSymbolLesson(
     lessonVM: LessonVM,
     wasWrongButtonPush: MutableState<Boolean>,
     wasSymbolRight: MutableState<Boolean>,
-    wasSymbolWrong: MutableState<Boolean>
-) {
-    Text(
-        text = "Урок ${selectedLesson.value}\n буквы " +
-                "${symbolsLesson.value[0].symbol}, " +
-                "${symbolsLesson.value[1].symbol} и " +
-                "${symbolsLesson.value[2].symbol}",
-        color = colorScheme.surfaceVariant,
-        fontSize = 12.sp,
-        modifier = Modifier.padding(start = 8.dp, top = 6.dp)
-    )
-    Column() {
-        ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(640.dp),
-            shape = MaterialTheme.shapes.large,
-            elevation = CardDefaults.cardElevation(4.dp)
+    wasSymbolWrong: MutableState<Boolean>,
+    navController: NavHostController,
+    symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
+    wasLessonComplete: MutableState<Boolean>,
+    symbolsLesson: MutableState<List<Symbol>>,
+    selectedLesson: MutableState<Int>,
+    listFirstShow: MutableState<MutableList<Symbol>>,
+    islistFirstShowEmpty: MutableState<Boolean>
+
+){
+    ElevatedCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        shape = MaterialTheme.shapes.large,
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(8.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(8.dp)
-            ) {
-                Row(
-                    modifier = Modifier.weight(0.35f).fillMaxWidth().padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    if(wasSymbolRight.value){
-                        Text(
-                            text = "Верно",
-                            fontWeight = FontWeight.Medium,
-                            color = Color(0xFF03C03C)
-                        )
-                    }
-                    if(wasSymbolWrong.value){
-                        Text(text = "Неверно",
-                            fontWeight = FontWeight.Medium,
-                            color = Color(0xFFD05340)
-                        )
-                    }
+            Text(
+                text = "Урок ${selectedLesson.value}\nбуквы " +
+                        "${symbolsLesson.value[0].symbol}, " +
+                        "${symbolsLesson.value[1].symbol} и " +
+                        "${symbolsLesson.value[2].symbol}",
+                color = Color.Gray,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+                modifier = Modifier.padding(start = 16.dp, top = 12.dp).weight(0.35f)
+            )
+            Row(
+                modifier = Modifier.weight(0.35f).fillMaxWidth().padding(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                if(wasSymbolRight.value){
+                    Text(
+                        text = "Верно",
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFF03C03C)
+                    )
                 }
+                if(wasSymbolWrong.value){
+                    Text(text = "Неверно",
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFFD05340)
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.weight(2.5f).fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                SymbolShow(
+                    currentSymbol,
+                    dot1,
+                    dot2,
+                    dot3,
+                    dot4,
+                    dot5,
+                    dot6,
+                    wasSymbolRight,
+                    wasWrongButtonPush
+                )
+            }
+            Column(modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
+            ) {
+
                 Row(
-                    modifier = Modifier.weight(2.5f).fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth().weight(1f)
                 ) {
-                    Symbol(
-                        currentSymbol,
+                    RightButton(
+                        wasSymbolRight,
+                        wasSymbolWrong,
+                        wasWrongButtonPush,
                         dot1,
                         dot2,
                         dot3,
                         dot4,
                         dot5,
                         dot6,
-                        wasSymbolRight,
-                        wasWrongButtonPush
+                        currentSymbol,
+                        lessonVM,
+                        symbolsAreNotLearning,
+                        islistFirstShowEmpty
                     )
                 }
-                Column(modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f).fillMaxWidth()
                 ) {
+                    Button(
+                        onClick = {
+                            if (!wasWrongButtonPush.value && !wasSymbolRight.value) {
+                                dot1.value = currentSymbol.value.dot1
+                                dot2.value = currentSymbol.value.dot2
+                                dot3.value = currentSymbol.value.dot3
+                                dot4.value = currentSymbol.value.dot4
+                                dot5.value = currentSymbol.value.dot5
+                                dot6.value = currentSymbol.value.dot6
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth().weight(1f)
-                    ) {
-                        RightButton(
-                            wasSymbolRight,
-                            wasSymbolWrong,
-                            wasWrongButtonPush,
-                            dot1,
-                            dot2,
-                            dot3,
-                            dot4,
-                            dot5,
-                            dot6,
-                            currentSymbol,
-                            lessonVM,
-                            symbolsAreNotLearning
-                        )
-                    }
-
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f).fillMaxWidth()
-                    ) {
-                        Button(
-                            onClick = {
-                                if (!wasWrongButtonPush.value && !wasSymbolRight.value) {
-                                    dot1.value = currentSymbol.value.dot1
-                                    dot2.value = currentSymbol.value.dot2
-                                    dot3.value = currentSymbol.value.dot3
-                                    dot4.value = currentSymbol.value.dot4
-                                    dot5.value = currentSymbol.value.dot5
-                                    dot6.value = currentSymbol.value.dot6
-
-                                    wasWrongButtonPush.value = true
-                                    wasSymbolWrong.value = true
-                                }
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorScheme.background,
-                                contentColor = colorScheme.onBackground,
-                                disabledContainerColor = colorScheme.background,
-                                disabledContentColor = colorScheme.onBackground
-                            ),
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Icon(
-                                    painter = painterResource(
-                                        id = R.drawable.close
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .height(24.dp)
-                                        .width(24.dp)
-                                        .padding(0.dp, 0.dp, 6.dp, 0.dp),
-                                    tint = MaterialTheme.colorScheme.onBackground
-                                )
-                                Text(
-                                    text = "Не помню",
-                                    fontFamily = InterFamily
-                                )
+                                wasWrongButtonPush.value = true
+                                wasSymbolWrong.value = true
                             }
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorScheme.background,
+                            contentColor = colorScheme.onBackground,
+                            disabledContainerColor = colorScheme.background,
+                            disabledContentColor = colorScheme.onBackground
+                        ),
+                        modifier = Modifier.weight(1f).alpha(if (islistFirstShowEmpty.value) 1f else 0f),
+                        enabled = islistFirstShowEmpty.value
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Icon(
+                                painter = painterResource(
+                                    id = R.drawable.close
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(24.dp)
+                                    .width(24.dp)
+                                    .padding(0.dp, 0.dp, 6.dp, 0.dp),
+                                tint = colorScheme.onBackground
+                            )
+                            Text(
+                                text = "Не помню",
+                                fontFamily = InterFamily
+                            )
                         }
-                        Button(
-                            onClick = {
-                                lessonVM.getOneSymbol()
+                    }
+                    Button(
+                        onClick = {
+                            if (islistFirstShowEmpty.value) {
+                                if (symbolsAreNotLearning.value.size == 0) {
+                                    wasLessonComplete.value = true
+                                    lessonVM.updateLesson()
+                                    navController.navigate("lesson")
+                                } else {
+                                    lessonVM.getOneSymbol()
+                                }
                                 dot1.value = false
                                 dot2.value = false
                                 dot3.value = false
@@ -194,231 +211,40 @@ fun SurfaceSymbolLesson(
                                 wasWrongButtonPush.value = false
                                 wasSymbolRight.value = false
                                 wasSymbolWrong.value = false
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = colorScheme.background,
-                                contentColor = colorScheme.onBackground,
-                                disabledContainerColor = colorScheme.background,
-                                disabledContentColor = colorScheme.onBackground
-                            ),
-                            modifier = Modifier.weight(1f)
+                                islistFirstShowEmpty.value = true
+                            } else {
+                                    lessonVM.nextSymbolForFirstShow()
+                                }
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = colorScheme.background,
+                            contentColor = colorScheme.onBackground,
+                            disabledContainerColor = colorScheme.background,
+                            disabledContentColor = colorScheme.onBackground
+                        ),
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.End
-                            ) {
-                                Text(text = "Следующий", fontFamily = InterFamily)
-                                Icon(
-                                    painter = painterResource(
-                                        id = R.drawable.arrow_forward
-                                    ),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .height(24.dp)
-                                        .width(24.dp)
-                                        .padding(4.dp, 0.dp, 0.dp, 0.dp),
-                                    tint = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
+                            Text(text = "Следующий", fontFamily = InterFamily)
+                            Icon(
+                                painter = painterResource(
+                                    id = R.drawable.arrow_forward
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .height(24.dp)
+                                    .width(24.dp)
+                                    .padding(4.dp, 0.dp, 0.dp, 0.dp),
+                                tint = colorScheme.onBackground
+                            )
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Symbol(
-    currentSymbol: MutableState<Symbol>,
-    dot1: MutableState<Boolean>,
-    dot2: MutableState<Boolean>,
-    dot3: MutableState<Boolean>,
-    dot4: MutableState<Boolean>,
-    dot5: MutableState<Boolean>,
-    dot6: MutableState<Boolean>,
-    wasSymbolRight: MutableState<Boolean>,
-    wasWrongButtonPush: MutableState<Boolean>
-){
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ){
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = currentSymbol.value.symbol,
-            fontSize = 64.sp,
-            fontWeight = FontWeight.Bold,
-            fontFamily = InterFamily
-        )
-        Spacer(modifier = Modifier.weight(1f))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (dot1.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot1.value = !dot1.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Icon(
-                painter = painterResource(
-                    id = if (dot2.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot2.value = !dot2.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (dot3.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot3.value = !dot3.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Icon(
-                painter = painterResource(
-                    id = if (dot4.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot4.value = !dot4.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = if (dot5.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot5.value = !dot5.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Icon(
-                painter = painterResource(
-                    id = if (dot6.value)
-                        R.drawable.fill_circle
-                    else R.drawable.outline_circle
-                ),
-                contentDescription = null,
-                modifier =
-                if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                } else {
-                    Modifier.height(54.dp)
-                        .width(54.dp)
-                        .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {
-                                dot6.value = !dot6.value
-                            })
-                },
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
@@ -435,7 +261,8 @@ fun RightButton(
     dot6: MutableState<Boolean>,
     currentSymbol: MutableState<Symbol>,
     lessonVM: LessonVM,
-    symbolsAreNotLearning: MutableState<MutableList<Symbol>>
+    symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
+    islistFirstShowEmpty: MutableState<Boolean>
 ){
     Button(
         onClick = {
@@ -454,6 +281,8 @@ fun RightButton(
             } else if(!wasWrongButtonPush.value && !wasSymbolRight.value){
                 wasSymbolWrong.value = true
             } },
+            modifier = Modifier.alpha(if (islistFirstShowEmpty.value) 1f else 0f),
+            enabled = islistFirstShowEmpty.value
     ) {
         Text(
             text = "Проверить",

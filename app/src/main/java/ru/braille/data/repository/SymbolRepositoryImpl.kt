@@ -1,46 +1,24 @@
 package ru.braille.data.repository
 
-import android.util.Log
 import ru.braille.data.room.Dao
-import ru.braille.data.room.entities.SymbolDB
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.repository.SymbolRepository
+import ru.braille.toSymbol
+import ru.braille.toSymbolDB
 import javax.inject.Inject
 
 class SymbolRepositoryImpl @Inject constructor(
     private val dao: Dao
 ) : SymbolRepository {
     override suspend fun getSymbol(findSymbol: String): Symbol {
-        val symbolDB = dao.getSymbol(findSymbol)
-        return Symbol(
-            symbolDB.symbol,
-            symbolDB.numberOfLesson,
-            symbolDB.completed,
-            symbolDB.dot1,
-            symbolDB.dot2,
-            symbolDB.dot3,
-            symbolDB.dot4,
-            symbolDB.dot5,
-            symbolDB.dot6
-        )
+        return dao.getSymbol(findSymbol).toSymbol()
     }
 
     override suspend fun getSymbolsOfLesson(numberOfLesson: Int): List<Symbol> {
         val symbolsDB = dao.getSymbolsOfLesson(numberOfLesson)
         val symbols = arrayListOf<Symbol>()
         symbolsDB.forEach{
-            val item = Symbol(
-                it.symbol,
-                it.numberOfLesson,
-                it.completed,
-                it.dot1,
-                it.dot2,
-                it.dot3,
-                it.dot4,
-                it.dot5,
-                it.dot6
-            )
-            symbols.add(item)
+            symbols.add(it.toSymbol())
         }
         return symbols
     }
@@ -53,35 +31,13 @@ class SymbolRepositoryImpl @Inject constructor(
         val symbolsDB = dao.getAllLearnedSymbols()
         val symbols = arrayListOf<Symbol>()
         symbolsDB.forEach{
-            val item = Symbol(
-                it.symbol,
-                it.numberOfLesson,
-                it.completed,
-                it.dot1,
-                it.dot2,
-                it.dot3,
-                it.dot4,
-                it.dot5,
-                it.dot6
-            )
-            symbols.add(item)
+            symbols.add(it.toSymbol())
         }
-        return if (symbols.isEmpty()) emptyList<Symbol>() else symbols
+        return if (symbols.isEmpty()) emptyList() else symbols
     }
 
     override suspend fun updateSymbol(symbol: Symbol) {
-        val symbolDB = SymbolDB(
-            symbol.symbol,
-            symbol.numberOfLesson,
-            symbol.completed,
-            symbol.dot1,
-            symbol.dot2,
-            symbol.dot3,
-            symbol.dot4,
-            symbol.dot5,
-            symbol.dot6,
-        )
-        dao.updateSymbol(symbolDB)
+        dao.updateSymbol(symbol.toSymbolDB())
     }
 
 }

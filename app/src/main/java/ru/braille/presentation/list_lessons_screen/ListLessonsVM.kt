@@ -13,14 +13,9 @@ import javax.inject.Inject
 class ListLessonsVM @Inject constructor (
     private val getListLessonsUseCase: GetListLessonsUseCase
 ): ViewModel() {
-    var listLessons = mutableStateOf(emptyList<Lesson>())
-    var selectedLesson = mutableStateOf(1)
-    private fun getList() = viewModelScope.launch{
-        listLessons.value = getListLessonsUseCase()
-    }
 
-    init{
-        getList()
-    }
+    var listLessons = getListLessonsUseCase()
+    var selectedLesson = mutableStateOf(1)
+
 
 }

@@ -23,7 +23,7 @@ import ru.braille.ui.theme.InterFamily
 fun ExerciserScreen(navController: NavController, exerciserVM: ExerciserVM) {
     Column(
         modifier = Modifier.fillMaxSize()
-            .padding(start = 32.dp, end = 32.dp),
+            .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){

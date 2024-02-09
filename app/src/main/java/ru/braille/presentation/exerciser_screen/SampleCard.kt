@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +54,7 @@ fun SurfaceSymbol(
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(640.dp),
+                .fillMaxHeight(),
             shape = MaterialTheme.shapes.large,
             elevation = CardDefaults.cardElevation(4.dp)
         ) {

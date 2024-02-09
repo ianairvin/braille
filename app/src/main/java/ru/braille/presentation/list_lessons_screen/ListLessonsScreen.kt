@@ -16,6 +16,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -37,7 +39,7 @@ fun ListLessonsScreen(
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
         Column(modifier = Modifier.weight(8f)) {
-            ListLessons(listLessonsVM.listLessons.value, navController, listLessonsVM.selectedLesson)
+            ListLessons(listLessonsVM.listLessons.collectAsState(initial = emptyList()), navController, listLessonsVM.selectedLesson)
         }
     }
 }
@@ -45,7 +47,7 @@ fun ListLessonsScreen(
 
 @Composable
 fun ListLessons(
-    listLessons : List<Lesson>,
+    listLessons : State<List<Lesson>>,
     navController: NavHostController,
     selectedLesson: MutableState<Int>
     ) {
@@ -57,7 +59,7 @@ fun ListLessons(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        listLessons.forEach { item ->
+        listLessons.value.forEach { item ->
             if (item.number == 1) {
                 Spacer(modifier = Modifier.padding(12.dp))
             }

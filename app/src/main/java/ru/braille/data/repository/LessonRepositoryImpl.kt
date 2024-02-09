@@ -1,26 +1,31 @@
 package ru.braille.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import ru.braille.data.room.Dao
+import ru.braille.data.room.entities.LessonDB
 import ru.braille.domain.entities.Lesson
 import ru.braille.domain.repository.LessonRepository
+import ru.braille.toLesson
+import ru.braille.toLessonDB
 import javax.inject.Inject
 
 class LessonRepositoryImpl @Inject constructor(
     private val dao: Dao
 ) : LessonRepository {
-    override suspend fun getListLessons(): List<Lesson> {
-        val listLessons = arrayListOf<Lesson>()
-        val listLessonsDB = dao.getListLessons()
-        listLessonsDB.forEach{
-            val item = Lesson(
-                number = it.number,
-                symbol1 = it.symbol1,
-                symbol2 = it.symbol2,
-                symbol3 = it.symbol3,
-                completed = it.completed
-            )
-            listLessons.add(item)
+    override fun getListLessons(): Flow<List<Lesson>> {
+        val listDB = dao.getListLessons()
+        val list: Flow<List<Lesson>> = listDB.map {
+            listDB -> listDB.map { it.toLesson() }
         }
-        return listLessons
+        return list
+    }
+
+    override suspend fun updateLesson(lesson: Lesson) {
+        dao.updateLesson(lesson.toLessonDB())
+    }
+
+    override suspend fun statusCompleteLesson(numberOfLesson: Int): Boolean {
+        return dao.statusCompleteLesson(numberOfLesson) == 1
     }
 }

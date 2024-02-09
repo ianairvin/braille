@@ -11,7 +11,13 @@ import ru.braille.data.room.entities.SymbolStatisticsDB
 @Dao
 interface Dao {
     @Query ("SELECT * FROM lesson_table ORDER BY number")
-    suspend fun getListLessons() : List<LessonDB>
+    fun getListLessons() : Flow<List<LessonDB>>
+
+    @Update
+    suspend fun updateLesson(lesson: LessonDB)
+
+    @Query("SELECT completed FROM lesson_table WHERE number = :numberOfLesson")
+    suspend fun statusCompleteLesson(numberOfLesson: Int) : Int
 
     @Query ("SELECT * FROM symbol_table WHERE symbol = :symbol")
     suspend fun getSymbol(symbol: String) : SymbolDB

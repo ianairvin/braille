@@ -6,6 +6,7 @@ import ru.braille.data.room.Dao
 import ru.braille.data.room.entities.SymbolStatisticsDB
 import ru.braille.domain.entities.SymbolStatistics
 import ru.braille.domain.repository.StatisticsRepository
+import ru.braille.toSymbolStatistics
 import javax.inject.Inject
 
 class StatisticsRepositoryImpl @Inject constructor(
@@ -16,24 +17,13 @@ class StatisticsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSymbolStatistics(symbol: String): SymbolStatistics {
-        val symbolStatisticsDB = dao.getSymbolStatistics(symbol)
-        return SymbolStatistics(
-            symbolStatisticsDB.symbol,
-            symbolStatisticsDB.right,
-            symbolStatisticsDB.wrong
-        )
+        return dao.getSymbolStatistics(symbol).toSymbolStatistics()
     }
 
     override fun getAllSymbolsStatistics(): Flow<List<SymbolStatistics>> {
         val listDB = dao.getAllSymbolStatistics()
         val list : Flow<List<SymbolStatistics>> = listDB.map {
-                listDB -> listDB.map {
-                it -> SymbolStatistics(
-                    it.symbol,
-                    it.right,
-                    it.wrong
-                )
-            }
+            listDB -> listDB.map { it.toSymbolStatistics() }
         }
         return list
     }

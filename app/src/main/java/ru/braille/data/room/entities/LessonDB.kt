@@ -9,5 +9,5 @@ data class LessonDB(
     val symbol1: String,
     val symbol2: String?,
     val symbol3: String?,
-    var completed: Boolean
+    var completed: Int
 )
