@@ -70,11 +70,14 @@ fun SurfaceSymbol(
                         Text(
                             text = "Верно",
                             fontWeight = FontWeight.Medium,
-                            color = Color(0xFF03C03C))
+                            color = Color(0xFF03C03C),
+                            fontFamily = InterFamily
+                        )
                     }
                     if(wasSymbolWrong.value){
                         Text(text = "Неверно",
                             fontWeight = FontWeight.Medium,
+                            fontFamily = InterFamily,
                             color = Color(0xFFD05340))
                     }
                 }
@@ -173,25 +176,11 @@ fun SurfaceSymbol(
                         }
                         Button(
                             onClick = {
-                                if(
-                                    !dot1.value &&
-                                    !dot2.value &&
-                                    !dot3.value &&
-                                    !dot4.value &&
-                                    !dot5.value &&
-                                    !dot6.value &&
-                                    !wasSymbolRight.value
-                                ) {
+                                if(wasSymbolWrong.value) {
                                     currentStatisticsSymbol.value.wrong += 1
                                     exerciserVM.updateStatiscticsSymbol()
                                 }
-                                exerciserVM.getSymbol()
-                                /*
-                                val symbol = currentSymbol.value
-                                currentSymbol.value = listSymbols.value.random()
-                                while (currentSymbol.value == symbol) {
-                                    currentSymbol.value = listSymbols.value.random()
-                                }*/
+                                exerciserVM. getSymbol()
                                 dot1.value = false
                                 dot2.value = false
                                 dot3.value = false

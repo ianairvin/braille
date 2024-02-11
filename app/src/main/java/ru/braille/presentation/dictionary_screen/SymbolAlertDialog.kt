@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
+import ru.braille.ui.theme.InterFamily
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,7 +35,7 @@ fun SymbolAlertDialog (
     symbol: Symbol
 ){
 
-    AlertDialog(onDismissRequest = {
+    BasicAlertDialog(onDismissRequest = {
         openAlertDialog.value = false
     }) {
         Surface(
@@ -53,7 +55,8 @@ fun SymbolAlertDialog (
                 Text(
                     text = symbol.symbol,
                     fontSize = 64.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = InterFamily
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Row(

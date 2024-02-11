@@ -2,6 +2,7 @@ package ru.braille.presentation.exerciser_screen
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,16 +34,20 @@ class ExerciserVM @Inject constructor(
 
     fun getFirstSymbol() = viewModelScope.launch{
         listLearnedSymbols.value = getAllLearnedSymbols()
-        currentSymbol.value = listLearnedSymbols.value.random()
-        findSymbolStatistics()
+        if(listLearnedSymbols.value.isNotEmpty()){
+            currentSymbol.value = listLearnedSymbols.value.random()
+            findSymbolStatistics()
+        }
     }
 
     fun getSymbol() = viewModelScope.launch{
         val symbol = currentSymbol.value.symbol
-        while (currentSymbol.value.symbol == symbol) {
-            currentSymbol.value = listLearnedSymbols.value.random()
+        if(listLearnedSymbols.value.size != 1) {
+            while (currentSymbol.value.symbol == symbol) {
+                currentSymbol.value = listLearnedSymbols.value.random()
+            }
+            findSymbolStatistics()
         }
-        findSymbolStatistics()
     }
     fun findSymbolStatistics() = viewModelScope.launch {
         currentSymbolStatistics.value = getSymbolStatistics(currentSymbol.value.symbol)
@@ -53,6 +58,11 @@ class ExerciserVM @Inject constructor(
             currentSymbolStatistics.value.right,
             currentSymbolStatistics.value.wrong)
     }
+
+    fun updateListExerciser() = viewModelScope.launch {
+        getFirstSymbol()
+    }
+
     init{
         getFirstSymbol()
     }

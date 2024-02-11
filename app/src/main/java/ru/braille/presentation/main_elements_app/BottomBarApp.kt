@@ -6,22 +6,20 @@ import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 
-import ru.braille.color.surfaceContainerDark
-import ru.braille.color.surfaceContainerLight
+import ru.braille.ui.theme.surfaceContainerDark
+import ru.braille.ui.theme.surfaceContainerLight
 import ru.braille.R
+import ru.braille.ui.theme.InterFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +44,10 @@ fun BottomBar(
                 }
                 selectedItem.value = "exerciser"
             },
-            label = { Text("Тренажер") },
+            label = { Text(
+                text = "Тренажер",
+                fontFamily = InterFamily
+            ) },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.exerciser),
@@ -54,12 +55,10 @@ fun BottomBar(
                 )
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                selectedTextColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                selectedIconColor = colorScheme.primary,
+                unselectedIconColor = colorScheme.onSurfaceVariant,
+                selectedTextColor = colorScheme.primary,
+                unselectedTextColor = colorScheme.onSurfaceVariant,
                 indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )
@@ -79,7 +78,9 @@ fun BottomBar(
                 }
                 selectedItem.value = "list_lessons"
             },
-            label = { Text("Обучение") },
+            label = { Text(
+                text = "Обучение",
+                fontFamily = InterFamily) },
             icon = {
                 BadgedBox(badge = {
                     if(badgeCountLearning.value != 0){
@@ -95,12 +96,10 @@ fun BottomBar(
                     )
                 } },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                selectedTextColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                selectedIconColor = colorScheme.primary,
+                unselectedIconColor = colorScheme.onSurfaceVariant,
+                selectedTextColor = colorScheme.primary,
+                unselectedTextColor = colorScheme.onSurfaceVariant,
                 indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )
@@ -118,7 +117,10 @@ fun BottomBar(
                 }
                 selectedItem.value = "dictionary"
             },
-            label = { Text("Словарь") },
+            label = {
+                Text(text = "Словарь",
+                fontFamily = InterFamily
+                )},
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.dictionary),
@@ -126,12 +128,10 @@ fun BottomBar(
                 )
             },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                selectedTextColor = if(isSystemInDarkTheme()) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.secondary,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                selectedIconColor = colorScheme.primary,
+                unselectedIconColor = colorScheme.onSurfaceVariant,
+                selectedTextColor = colorScheme.primary,
+                unselectedTextColor = colorScheme.onSurfaceVariant,
                 indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )

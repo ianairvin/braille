@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.braille.domain.entities.Lesson
 import ru.braille.presentation.main_elements_app.TopBar
+import ru.braille.ui.theme.InterFamily
 
 @Composable
 fun ListLessonsScreen(
@@ -70,6 +71,7 @@ fun ListLessons(
                         navController.navigate("lesson") {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true
+                                inclusive = true
                             }
                             launchSingleTop = true
                             restoreState = true
@@ -79,7 +81,8 @@ fun ListLessons(
                 ) {
                     Text(
                         text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        fontFamily = InterFamily
                     )
                 }
             } else {
@@ -98,7 +101,8 @@ fun ListLessons(
                 ) {
                     Text(
                         text = "Урок ${item.number}\nБуквы ${item.symbol1}, ${item.symbol2} и ${item.symbol3}",
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        fontFamily = InterFamily
                     )
 
                 }

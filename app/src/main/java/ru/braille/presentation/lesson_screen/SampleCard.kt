@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
+import ru.braille.presentation.exerciser_screen.ExerciserVM
 import ru.braille.ui.theme.InterFamily
 
 val interactionSource = MutableInteractionSource()
@@ -56,8 +57,8 @@ fun SampleCard(
     wasLessonComplete: MutableState<Boolean>,
     symbolsLesson: MutableState<List<Symbol>>,
     selectedLesson: MutableState<Int>,
-    listFirstShow: MutableState<MutableList<Symbol>>,
-    islistFirstShowEmpty: MutableState<Boolean>
+    islistFirstShowEmpty: MutableState<Boolean>,
+    exerciserVM: ExerciserVM
 
 ){
     ElevatedCard(
@@ -78,7 +79,8 @@ fun SampleCard(
                 color = Color.Gray,
                 fontSize = 12.sp,
                 lineHeight = 16.sp,
-                modifier = Modifier.padding(start = 16.dp, top = 12.dp).weight(0.35f)
+                modifier = Modifier.padding(start = 16.dp, top = 12.dp).weight(0.35f),
+                fontFamily = InterFamily
             )
             Row(
                 modifier = Modifier.weight(0.35f).fillMaxWidth().padding(),
@@ -89,13 +91,15 @@ fun SampleCard(
                     Text(
                         text = "Верно",
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFF03C03C)
+                        color = Color(0xFF03C03C),
+                        fontFamily = InterFamily
                     )
                 }
                 if(wasSymbolWrong.value){
                     Text(text = "Неверно",
                         fontWeight = FontWeight.Medium,
-                        color = Color(0xFFD05340)
+                        color = Color(0xFFD05340),
+                        fontFamily = InterFamily
                     )
                 }
             }
@@ -139,7 +143,8 @@ fun SampleCard(
                         currentSymbol,
                         lessonVM,
                         symbolsAreNotLearning,
-                        islistFirstShowEmpty
+                        islistFirstShowEmpty,
+                        exerciserVM
                     )
                 }
 
@@ -213,8 +218,8 @@ fun SampleCard(
                                 wasSymbolWrong.value = false
                                 islistFirstShowEmpty.value = true
                             } else {
-                                    lessonVM.nextSymbolForFirstShow()
-                                }
+                                lessonVM.nextSymbolForFirstShow()
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = colorScheme.background,
@@ -262,7 +267,8 @@ fun RightButton(
     currentSymbol: MutableState<Symbol>,
     lessonVM: LessonVM,
     symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
-    islistFirstShowEmpty: MutableState<Boolean>
+    islistFirstShowEmpty: MutableState<Boolean>,
+    exerciserVM: ExerciserVM
 ){
     Button(
         onClick = {
@@ -275,6 +281,7 @@ fun RightButton(
                 dot6.value == currentSymbol.value.dot6
             ) {
                 lessonVM.updateLearningSymbol()
+                exerciserVM.updateListExerciser()
                 symbolsAreNotLearning.value.remove(currentSymbol.value)
                 wasSymbolRight.value = true
                 wasSymbolWrong.value = false

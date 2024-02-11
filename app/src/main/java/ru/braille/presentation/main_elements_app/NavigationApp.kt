@@ -48,6 +48,7 @@ fun AppNavHost(
                 selectedItem,
                 badgeCountLearning,
                 lessonVM,
+                exerciserVM,
                 listLessonsVM,
                 tabIndex
             )

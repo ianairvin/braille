@@ -29,6 +29,8 @@ import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
 import ru.braille.presentation.statistics_screen.StatisticsVM
 import ru.braille.ui.theme.BrailleTheme
+import ru.braille.ui.theme.surfaceContainerDark
+import ru.braille.ui.theme.surfaceContainerLight
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -82,8 +84,9 @@ fun UiController(darkTheme: Boolean){
         systemUiController.setStatusBarColor(color = Color.Transparent)
         systemUiController.statusBarDarkContentEnabled = !darkTheme
         systemUiController.setNavigationBarColor(color =
-        if (darkTheme) ru.braille.color.surfaceContainerDark
-        else ru.braille.color.surfaceContainerLight)
+        if (darkTheme) surfaceContainerDark
+        else surfaceContainerLight
+        )
         systemUiController.navigationBarDarkContentEnabled = !darkTheme
     }
 }

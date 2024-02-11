@@ -126,16 +126,16 @@ fun initSymbol(db: SupportSQLiteDatabase) {
             " values ('Ы', 10, 0," +
             " 0, 1, 1, 0, 1, 1)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Ь', 10, 1," +
+            " values ('Ь', 10, 0," +
             " 0, 1, 1, 1, 1, 1)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Э', 11, 1," +
+            " values ('Э', 11, 0," +
             " 0, 1, 1, 0, 0, 1)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Ю', 11, 1," +
+            " values ('Ю', 11, 0," +
             " 1, 0, 1, 1, 0, 1)")
     db.execSQL("INSERT INTO symbol_table (symbol, numberOfLesson, completed, dot1, dot2, dot3, dot4, dot5, dot6)" +
-            " values ('Я', 11, 1," +
+            " values ('Я', 11, 0," +
             " 1, 1, 1, 0, 0, 1)")
 }
 

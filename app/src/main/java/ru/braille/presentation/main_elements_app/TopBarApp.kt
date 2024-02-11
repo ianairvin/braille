@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.braille.R
+import ru.braille.ui.theme.InterFamily
 
 @Composable
 fun TopBar(
@@ -43,7 +44,10 @@ fun TopBar(
                     }
                 }
             },
-            text = { Text("Уроки") }
+            text = { Text(
+                text = "Уроки",
+                fontFamily = InterFamily
+            ) }
         )
         Tab(
             selected = tabIndex.value == 1,
@@ -62,7 +66,9 @@ fun TopBar(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Повторение")
+                    Text(
+                        text = "Повторение",
+                        fontFamily = InterFamily)
                     Spacer(modifier = Modifier.padding(end = 4.dp))
                     if (badgeCountLearning.value != 0) {
                         Icon(

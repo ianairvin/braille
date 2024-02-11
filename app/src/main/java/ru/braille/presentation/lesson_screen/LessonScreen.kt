@@ -1,31 +1,25 @@
 package ru.braille.presentation.lesson_screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import ru.braille.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import ru.braille.domain.entities.Symbol
+import ru.braille.presentation.exerciser_screen.ExerciserVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.TopBar
 import ru.braille.ui.theme.InterFamily
@@ -36,19 +30,16 @@ fun LessonScreen(
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
     lessonVM: LessonVM,
+    exerciserVM: ExerciserVM,
     listLessonsVM: ListLessonsVM,
     tabIndex: MutableState<Int>
 ) {
-    if(lessonVM.selectedLesson.value != listLessonsVM.selectedLesson.value){
-        lessonVM.selectedLesson.value = listLessonsVM.selectedLesson.value
-        lessonVM.getSymbols()
-        lessonVM.wasLessonComplete()
-    }
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
         SurfaceSymbolLesson(
+            listLessonsVM.selectedLesson,
             lessonVM.selectedLesson,
             lessonVM.symbolsLesson,
             lessonVM.symbolsAreNotLearning,
@@ -66,15 +57,17 @@ fun LessonScreen(
             lessonVM.wasLessonComplete,
             navController,
             lessonVM.noSymbols,
-            lessonVM.listFirstShow,
-            lessonVM.islistFirstShowEmpty
+            lessonVM.islistFirstShowEmpty,
+            exerciserVM,
+            lessonVM.lessonOver
         )
     }
 }
 
 @Composable
 fun SurfaceSymbolLesson(
-    selectedLesson: MutableState<Int>,
+    selectedLessonFromListLessonVM: MutableState<Int>,
+    selectedLessonFromLessonVM: MutableState<Int>,
     symbolsLesson: MutableState<List<Symbol>>,
     symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
     currentSymbol: MutableState<Symbol>,
@@ -91,19 +84,27 @@ fun SurfaceSymbolLesson(
     wasLessonComplete: MutableState<Boolean>,
     navController: NavHostController,
     noSymbols: MutableState<Boolean>,
-    listFirstShow: MutableState<MutableList<Symbol>>,
-    islistFirstShowEmpty: MutableState<Boolean>
+    islistFirstShowEmpty: MutableState<Boolean>,
+    exerciserVM: ExerciserVM,
+    lessonOver: MutableState<Boolean>
 ) {
+    if(selectedLessonFromLessonVM.value != selectedLessonFromListLessonVM.value){
+        selectedLessonFromLessonVM.value = selectedLessonFromListLessonVM.value
+        lessonVM.getSymbols()
+        lessonVM.lessonComplete()
+    }
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(wasLessonComplete.value) {
+        if(wasLessonComplete.value && !lessonOver.value) {
             Warning(wasLessonComplete, lessonVM)
-        } else if(noSymbols.value){
+        } else if(noSymbols.value) {
             NoSymbols()
+        } else if(lessonOver.value){
+            LessonOver(lessonOver)
         } else {
             SampleCard(
                 currentSymbol,
@@ -121,9 +122,9 @@ fun SurfaceSymbolLesson(
                 symbolsAreNotLearning,
                 wasLessonComplete,
                 symbolsLesson,
-                selectedLesson,
-                listFirstShow,
-                islistFirstShowEmpty
+                selectedLessonFromLessonVM,
+                islistFirstShowEmpty,
+                exerciserVM
             )
         }
     }
@@ -154,6 +155,7 @@ fun Warning(
             onClick = {
                 wasLessonComplete.value = false
                 lessonVM.updateLesson()
+                lessonVM.updateSymbolsAfterReset()
             }
         ){
             Text(
@@ -176,5 +178,33 @@ fun NoSymbols(){
             fontSize = 16.sp,
             text = "Нет символов для изучения"
         )
+    }
+}
+
+@Composable
+fun LessonOver(
+    lessonOver: MutableState<Boolean>
+){
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ){
+        Text(
+            fontFamily = InterFamily,
+            fontSize = 16.sp,
+            text = "Урок завершен"
+        )
+        Spacer(Modifier.padding(bottom = 32.dp))
+        Button(
+            onClick = {
+                lessonOver.value = false
+            }
+        ){
+            Text(
+                text = "Продолжить",
+                fontFamily = InterFamily
+            )
+        }
     }
 }
