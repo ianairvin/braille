@@ -2,10 +2,16 @@ package ru.braille
 
 import ru.braille.data.room.entities.LessonDB
 import ru.braille.data.room.entities.SymbolDB
+import ru.braille.data.room.entities.SymbolRepeatDB
 import ru.braille.data.room.entities.SymbolStatisticsDB
 import ru.braille.domain.entities.Lesson
 import ru.braille.domain.entities.Symbol
+import ru.braille.domain.entities.SymbolRepeat
 import ru.braille.domain.entities.SymbolStatistics
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 fun Lesson.toLessonDB() : LessonDB {
     return LessonDB(
@@ -62,3 +68,20 @@ fun Symbol.toSymbolDB() : SymbolDB {
     )
 }
 
+fun SymbolRepeatDB.toSymbolRepeat() : SymbolRepeat {
+    return SymbolRepeat(
+        this.symbol,
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(this.nextRepeat), ZoneId.systemDefault()),
+        this.numberOfRepeats,
+        this.isRepeated != 0
+    )
+}
+
+fun SymbolRepeat.toSymbolRepeatDB() : SymbolRepeatDB {
+    return SymbolRepeatDB(
+        this.symbol,
+        ZonedDateTime.of(this.nextRepeat, ZoneId.systemDefault()).toInstant().toEpochMilli(),
+        this.numberOfRepeats,
+        if(this.isRepeated) 1 else 0
+    )
+}

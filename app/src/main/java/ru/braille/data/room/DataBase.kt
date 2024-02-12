@@ -4,10 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.braille.data.room.entities.LessonDB
 import ru.braille.data.room.entities.SymbolDB
+import ru.braille.data.room.entities.SymbolRepeatDB
 import ru.braille.data.room.entities.SymbolStatisticsDB
 
 @Database(
-    entities = [LessonDB::class, SymbolDB::class, SymbolStatisticsDB::class],
+    entities = [LessonDB::class, SymbolDB::class, SymbolStatisticsDB::class, SymbolRepeatDB::class],
     version = 1
 )
 

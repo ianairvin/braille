@@ -27,6 +27,7 @@ import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.presentation.statistics_screen.StatisticsVM
 import ru.braille.ui.theme.BrailleTheme
 import ru.braille.ui.theme.surfaceContainerDark
@@ -40,6 +41,7 @@ class MainActivity : ComponentActivity() {
     private val dictionaryViewModel by viewModels<DictionaryVM>()
     private val exerciserViewModel by viewModels<ExerciserVM>()
     private val statisticsViewModel by viewModels<StatisticsVM>()
+    private val repeatsViewModel by viewModels<RepeatVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -68,7 +70,8 @@ class MainActivity : ComponentActivity() {
                             lessonViewModel,
                             dictionaryViewModel,
                             exerciserViewModel,
-                            statisticsViewModel)
+                            statisticsViewModel,
+                            repeatsViewModel)
                     }
                 }
             }

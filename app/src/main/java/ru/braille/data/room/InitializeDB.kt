@@ -9,14 +9,15 @@ class InitializeDB : RoomDatabase.Callback(){
         initListLessons(db)
         initSymbol(db)
         initSymbolStatistics(db)
+        initSymbolRepeat(db)
     }
 }
 
 fun initListLessons(db: SupportSQLiteDatabase){
     db.execSQL("INSERT INTO lesson_table (number, symbol1, symbol2, symbol3, completed)" +
-            " values (1, 'А', 'Б', 'В', 1)")
+            " values (1, 'А', 'Б', 'В', 0)")
     db.execSQL("INSERT INTO lesson_table (number, symbol1, symbol2, symbol3, completed)" +
-            " values (2, 'Г', 'Д', 'Е', 1)")
+            " values (2, 'Г', 'Д', 'Е', 0)")
     db.execSQL("INSERT INTO lesson_table (number, symbol1, symbol2, symbol3, completed)" +
             " values (3, 'Ё', 'Ж', 'З', 0)")
     db.execSQL("INSERT INTO lesson_table (number, symbol1, symbol2, symbol3, completed)" +
@@ -206,4 +207,73 @@ fun initSymbolStatistics(db: SupportSQLiteDatabase){
             "values ('Ю', 0, 0)")
     db.execSQL("INSERT INTO symbol_statistics_table (symbol, right, wrong) " +
             "values ('Я', 0, 0)")
+}
+
+fun initSymbolRepeat(db: SupportSQLiteDatabase) {
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+                "values ('А', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Б', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('В', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Г', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Д', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Е', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ё', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ж', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('З', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('И', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Й', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('К', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Л', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('М', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Н', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('О', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('П', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Р', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('С', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Т', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('У', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ф', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Х', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ц', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ч', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ш', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Щ', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ъ', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ы', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ь', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Э', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Ю', 0, 0, 0)")
+    db.execSQL("INSERT INTO symbol_repeat_table (symbol, nextRepeat, numberOfRepeats, isRepeated) " +
+            "values ('Я', 0, 0, 0)")
 }

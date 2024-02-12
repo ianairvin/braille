@@ -71,7 +71,6 @@ fun ListLessons(
                         navController.navigate("lesson") {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true
-                                inclusive = true
                             }
                             launchSingleTop = true
                             restoreState = true

@@ -10,6 +10,7 @@ import ru.braille.domain.entities.Lesson
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.use_case.lesson_use_case.StatusCompleteLessonUseCase
 import ru.braille.domain.use_case.lesson_use_case.UpdateLessonUseCase
+import ru.braille.domain.use_case.repeat_use_case.UpdateRepeatSymbolUseCase
 import ru.braille.domain.use_case.symbol_use_case.GetSymbolsOfLessonUseCase
 import ru.braille.domain.use_case.symbol_use_case.UpdateSymbolUseCase
 import javax.inject.Inject
@@ -19,7 +20,8 @@ class LessonVM @Inject constructor(
     private val getSymbols: GetSymbolsOfLessonUseCase,
     private val updateSymbol: UpdateSymbolUseCase,
     private val updateLesson: UpdateLessonUseCase,
-    private val statusCompleteLesson: StatusCompleteLessonUseCase
+    private val statusCompleteLesson: StatusCompleteLessonUseCase,
+    private val updateRepeatSymbol: UpdateRepeatSymbolUseCase
 ): ViewModel() {
     val symbolsAreNotLearning: MutableState<MutableList<Symbol>> = mutableStateOf(mutableListOf())
 
@@ -97,6 +99,7 @@ class LessonVM @Inject constructor(
     fun updateLearningSymbol() = viewModelScope.launch{
         currentSymbol.value.completed = !currentSymbol.value.completed
         updateSymbol(currentSymbol.value)
+        updateRepeatSymbol(currentSymbol.value.symbol, 0, false)
     }
 
     fun lessonComplete() = viewModelScope.launch{
@@ -124,6 +127,9 @@ class LessonVM @Inject constructor(
         updateSymbol(symbolsLesson.value[0])
         updateSymbol(symbolsLesson.value[1])
         updateSymbol(symbolsLesson.value[2])
+        updateRepeatSymbol(symbolsLesson.value[0].symbol, 0, true)
+        updateRepeatSymbol(symbolsLesson.value[1].symbol, 0, true)
+        updateRepeatSymbol(symbolsLesson.value[2].symbol, 0, true)
         getSymbols()
     }
 

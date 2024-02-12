@@ -6,6 +6,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import ru.braille.data.room.entities.LessonDB
 import ru.braille.data.room.entities.SymbolDB
+import ru.braille.data.room.entities.SymbolRepeatDB
 import ru.braille.data.room.entities.SymbolStatisticsDB
 
 @Dao
@@ -42,4 +43,16 @@ interface Dao {
 
     @Update
     suspend fun updateSymbol(symbol: SymbolDB)
+
+    @Query("SELECT * FROM symbol_table LEFT JOIN symbol_repeat_table " +
+            "ON symbol_table.symbol = symbol_repeat_table.symbol " +
+            "WHERE (symbol_repeat_table.nextRepeat < :currentTime " +
+            "AND symbol_repeat_table.isRepeated = 1)")
+    suspend fun getRepeatsSymbols(currentTime: Long) : List<SymbolDB>
+
+    @Query("SELECT numberOfRepeats FROM symbol_repeat_table WHERE symbol = :symbol")
+    suspend fun getNumberOfRepeats(symbol: String): Int
+
+    @Update
+    suspend fun updateRepeat(repeat: SymbolRepeatDB)
 }

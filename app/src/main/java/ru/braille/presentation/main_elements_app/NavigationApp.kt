@@ -15,6 +15,8 @@ import ru.braille.presentation.lesson_screen.LessonScreen
 import ru.braille.presentation.lesson_screen.LessonVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsScreen
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
+import ru.braille.presentation.repeat_screen.RepeatScreen
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.presentation.statistics_screen.StatisticsScreen
 import ru.braille.presentation.statistics_screen.StatisticsVM
 
@@ -26,7 +28,8 @@ fun AppNavHost(
     lessonVM: LessonVM,
     dictionaryVM: DictionaryVM,
     exerciserVM: ExerciserVM,
-    statisticsVM: StatisticsVM
+    statisticsVM: StatisticsVM,
+    repeatVM: RepeatVM
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
@@ -34,6 +37,8 @@ fun AppNavHost(
     NavHost(navController = navController, startDestination = "list_lessons") {
 
         composable(route = "list_lessons"){
+            selectedItem.value = "list_lesson"
+            tabIndex.value = 0
             ListLessonsScreen(
                 navController,
                 selectedItem,
@@ -54,15 +59,29 @@ fun AppNavHost(
             )
         }
         composable(route = "repeat"){
-            //RepeatScreen(contentPadding)
+            selectedItem.value = "repeat"
+            tabIndex.value = 1
+            RepeatScreen(
+                navController,
+                selectedItem,
+                badgeCountLearning,
+                repeatVM,
+                tabIndex
+                )
         }
         composable(route = "exerciser"){
+            selectedItem.value = "list_lesson"
+            tabIndex.value = 0
             ExerciserScreen(navController, exerciserVM)
         }
         composable(route = "statistics"){
+            selectedItem.value = "list_lesson"
+            tabIndex.value = 0
             StatisticsScreen(statisticsVM)
         }
         composable(route = "dictionary"){
+            selectedItem.value = "list_lesson"
+            tabIndex.value = 0
             DictionaryScreen(dictionaryVM)
         }
     }
