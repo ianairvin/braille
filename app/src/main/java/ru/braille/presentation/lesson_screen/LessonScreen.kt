@@ -22,6 +22,7 @@ import ru.braille.domain.entities.Symbol
 import ru.braille.presentation.exerciser_screen.ExerciserVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.TopBar
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.ui.theme.InterFamily
 
 @Composable
@@ -99,13 +100,13 @@ fun SurfaceSymbolLesson(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(wasLessonComplete.value && !lessonOver.value) {
-            Warning(wasLessonComplete, lessonVM)
-        } else if(noSymbols.value) {
+        if(noSymbols.value) {
             NoSymbols()
         } else if(lessonOver.value){
-            LessonOver(lessonOver)
-        } else {
+            LessonOver(lessonOver, navController, noSymbols)
+        } else if(wasLessonComplete.value && !lessonOver.value) {
+            Warning(wasLessonComplete, lessonVM)
+        }  else {
             SampleCard(
                 currentSymbol,
                 dot1,
@@ -183,7 +184,9 @@ fun NoSymbols(){
 
 @Composable
 fun LessonOver(
-    lessonOver: MutableState<Boolean>
+    lessonOver: MutableState<Boolean>,
+    navController: NavHostController,
+    noSymbols: MutableState<Boolean>
 ){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -199,10 +202,12 @@ fun LessonOver(
         Button(
             onClick = {
                 lessonOver.value = false
+                noSymbols.value = false
+                navController.navigate("list_lessons")
             }
         ){
             Text(
-                text = "Продолжить",
+                text = "Назад",
                 fontFamily = InterFamily
             )
         }

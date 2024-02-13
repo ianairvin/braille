@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.ui.theme.InterFamily
 
 @Composable

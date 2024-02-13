@@ -59,7 +59,6 @@ fun SampleCard(
     selectedLesson: MutableState<Int>,
     islistFirstShowEmpty: MutableState<Boolean>,
     exerciserVM: ExerciserVM
-
 ){
     ElevatedCard(
         modifier = Modifier

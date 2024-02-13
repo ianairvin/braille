@@ -1,5 +1,6 @@
 package ru.braille.presentation.repeat_screen
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -52,9 +53,9 @@ fun SampleCard(
     wasWrongButtonPush: MutableState<Boolean>,
     wasSymbolRight: MutableState<Boolean>,
     wasSymbolWrong: MutableState<Boolean>,
-    numberOfRepeats: MutableState<Int>,
-    repeatsSymbols: MutableState<MutableList<Symbol>>
+    numberOfRepeats: MutableState<Int>
 ){
+    Log.i("qqq", currentSymbol.value.symbol)
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,8 +133,7 @@ fun SampleCard(
                         dot5,
                         dot6,
                         currentSymbol,
-                        repeatVM,
-                        repeatsSymbols
+                        repeatVM
                     )
                 }
 
@@ -243,8 +243,7 @@ fun RightButton(
     dot5: MutableState<Boolean>,
     dot6: MutableState<Boolean>,
     currentSymbol: MutableState<Symbol>,
-    repeatVM: RepeatVM,
-    repeatsSymbols: MutableState<MutableList<Symbol>>
+    repeatVM: RepeatVM
 ){
     Button(
         onClick = {
@@ -257,7 +256,6 @@ fun RightButton(
                 dot6.value == currentSymbol.value.dot6
             ) {
                 repeatVM.updateRepeat()
-                repeatsSymbols.value.remove(currentSymbol.value)
                 wasSymbolRight.value = true
                 wasSymbolWrong.value = false
             } else if(!wasWrongButtonPush.value && !wasSymbolRight.value){

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.braille.domain.entities.Lesson
 import ru.braille.presentation.main_elements_app.TopBar
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.ui.theme.InterFamily
 
 @Composable

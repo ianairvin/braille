@@ -17,10 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.ui.theme.InterFamily
 
 @Composable
-fun ExerciserScreen(navController: NavController, exerciserVM: ExerciserVM) {
+fun ExerciserScreen(
+    navController: NavController,
+    exerciserVM: ExerciserVM
+) {
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),

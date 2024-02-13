@@ -25,10 +25,13 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W400
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.braille.domain.entities.SymbolStatistics
+import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.ui.theme.InterFamily
 
 @Composable
-fun StatisticsScreen(statisticsVM: StatisticsVM){
+fun StatisticsScreen(
+    statisticsVM: StatisticsVM
+){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

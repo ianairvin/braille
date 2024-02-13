@@ -16,7 +16,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
-class RepeatVM @Inject constructor(
+open class RepeatVM @Inject constructor(
     private val getRepeatsSymbols: GetRepeatsSymbolsUseCase,
     private val getNumberOfRepeats: GetNumberOfRepeatsUseCase,
     private val updateRepeatSymbol: UpdateRepeatSymbolUseCase
@@ -68,7 +68,7 @@ class RepeatVM @Inject constructor(
         }
     }
 
-    /*
+
     private val handler = Handler(Looper.getMainLooper())
     private fun updateCurrentTime() {
         handler.postDelayed({
@@ -76,14 +76,18 @@ class RepeatVM @Inject constructor(
             updateCurrentTime()
         }, 2000)
     }
-    */
+
 
     private fun updateListRepeatSymbols(currentTime: LocalDateTime) = viewModelScope.launch {
         repeatsSymbols.value = getRepeatsSymbols(currentTime).toMutableList()
         if(repeatsSymbols.value.isEmpty()){
             noSymbols.value = true
+            currentSymbol.value.symbol = ""
         }
-        nextSymbol()
+        if(currentSymbol.value.symbol == "" && repeatsSymbols.value.isNotEmpty()){
+            nextSymbol()
+            noSymbols.value = false
+        }
     }
 
     fun updateRepeat() = viewModelScope.launch {
@@ -92,6 +96,6 @@ class RepeatVM @Inject constructor(
 
     init{
         updateListRepeatSymbols(LocalDateTime.now())
-        //updateCurrentTime()
+        updateCurrentTime()
     }
 }

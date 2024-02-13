@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             BrailleTheme {
                 UiController(isSystemInDarkTheme())
-                val badgeCountLearning = remember{ mutableStateOf(1) }
+                val badgeCountLearning = remember{ mutableStateOf(0) }
                 val selectedItem = remember{ mutableStateOf("list_lessons") }
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -71,7 +71,9 @@ class MainActivity : ComponentActivity() {
                             dictionaryViewModel,
                             exerciserViewModel,
                             statisticsViewModel,
-                            repeatsViewModel)
+                            repeatsViewModel,
+                            repeatsViewModel.repeatsSymbols.value.size
+                        )
                     }
                 }
             }

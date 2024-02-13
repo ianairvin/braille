@@ -49,8 +49,7 @@ fun RepeatScreen(
             repeatVM.wasSymbolRight,
             repeatVM.wasSymbolWrong,
             repeatVM.noSymbols,
-            repeatVM.numberOfRepeats,
-            repeatVM.repeatsSymbols
+            repeatVM.numberOfRepeats
         )
     }
 }
@@ -69,8 +68,7 @@ fun SurfaceSymbolRepeat(
     wasSymbolRight: MutableState<Boolean>,
     wasSymbolWrong: MutableState<Boolean>,
     noSymbols: MutableState<Boolean>,
-    numberOfRepeats: MutableState<Int>,
-    repeatsSymbols: MutableState<MutableList<Symbol>>
+    numberOfRepeats: MutableState<Int>
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -93,8 +91,7 @@ fun SurfaceSymbolRepeat(
                 wasSymbolRight,
                 wasWrongButtonPush,
                 wasSymbolWrong,
-                numberOfRepeats,
-                repeatsSymbols
+                numberOfRepeats
             )
         }
     }

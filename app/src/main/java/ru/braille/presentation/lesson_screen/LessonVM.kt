@@ -105,6 +105,9 @@ class LessonVM @Inject constructor(
     fun lessonComplete() = viewModelScope.launch{
         wasLessonComplete.value = statusCompleteLesson(selectedLesson.value)
         lessonOver.value = false
+        if(wasLessonComplete.value){
+            noSymbols.value = false
+        }
     }
 
     fun updateLesson() = viewModelScope.launch{

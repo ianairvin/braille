@@ -29,10 +29,12 @@ fun AppNavHost(
     dictionaryVM: DictionaryVM,
     exerciserVM: ExerciserVM,
     statisticsVM: StatisticsVM,
-    repeatVM: RepeatVM
+    repeatVM: RepeatVM,
+    numberOfNotification: Int
 ){
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
+    badgeCountLearning.value = numberOfNotification
 
     NavHost(navController = navController, startDestination = "list_lessons") {
 
@@ -45,7 +47,7 @@ fun AppNavHost(
                 badgeCountLearning,
                 listLessonsVM,
                 tabIndex
-                )
+            )
         }
         composable(route = "lesson"){
             LessonScreen(
