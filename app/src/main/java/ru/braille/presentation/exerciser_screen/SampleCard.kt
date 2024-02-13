@@ -65,7 +65,7 @@ fun SurfaceSymbol(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 12.dp, end = 16.dp)
-                        .weight(0.35f)
+                        .weight(1f)
                 ) {}
                 Row(
                     modifier = Modifier.weight(0.35f).fillMaxWidth().padding(top = 16.dp),
@@ -88,7 +88,7 @@ fun SurfaceSymbol(
                     }
                 }
                 Row(
-                    modifier = Modifier.weight(2.5f).fillMaxWidth(),
+                    modifier = Modifier.weight(3f).fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -105,7 +105,7 @@ fun SurfaceSymbol(
                     )
                 }
                 Column(modifier = Modifier
-                    .weight(1.5f)
+                    .weight(2f)
                     .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
                 ) {
 
@@ -129,7 +129,7 @@ fun SurfaceSymbol(
                             exerciserVM
                         )
                     }
-
+                    Spacer(Modifier.weight(0.25f))
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +176,8 @@ fun SurfaceSymbol(
                                 )
                                 Text(
                                     text = "Не помню",
-                                    fontFamily = InterFamily
+                                    fontFamily = InterFamily,
+                                    fontSize = 12.sp
                                 )
                             }
                         }
@@ -208,15 +209,19 @@ fun SurfaceSymbol(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.End
                             ) {
-                                Text(text = "Следующий", fontFamily = InterFamily)
+                                Text(
+                                    text = "Следующий",
+                                    fontFamily = InterFamily,
+                                    fontSize = 12.sp
+                                )
                                 Icon(
                                     painter = painterResource(
                                         id = R.drawable.arrow_forward
                                     ),
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .height(24.dp)
-                                        .width(24.dp)
+                                        .height(16.dp)
+                                        .width(16.dp)
                                         .padding(4.dp, 0.dp, 0.dp, 0.dp),
                                     tint = MaterialTheme.colorScheme.onBackground
                                 )
@@ -460,6 +465,7 @@ fun RightButton(
     ) {
         Text(
             text = "Проверить",
+            fontSize = 12.sp,
             fontFamily = InterFamily
         )
     }

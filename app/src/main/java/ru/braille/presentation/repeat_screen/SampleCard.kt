@@ -71,7 +71,7 @@ fun SampleCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 12.dp, end = 16.dp)
-                    .weight(0.35f)
+                    .weight(1f)
             ) {
                 Column(
                     verticalArrangement = Arrangement.Top,
@@ -132,7 +132,7 @@ fun SampleCard(
                 }
             }
             Row(
-                modifier = Modifier.weight(2.5f).fillMaxWidth(),
+                modifier = Modifier.weight(3f).fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -149,7 +149,7 @@ fun SampleCard(
                 )
             }
             Column(modifier = Modifier
-                .weight(1.5f)
+                .weight(2f)
                 .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
             ) {
 
@@ -172,7 +172,7 @@ fun SampleCard(
                         repeatVM
                     )
                 }
-
+                Spacer(Modifier.weight(0.25f))
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
@@ -217,7 +217,8 @@ fun SampleCard(
                             )
                             Text(
                                 text = "Не помню",
-                                fontFamily = InterFamily
+                                fontFamily = InterFamily,
+                                fontSize = 12.sp
                             )
                         }
                     }
@@ -247,15 +248,18 @@ fun SampleCard(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.End
                         ) {
-                            Text(text = "Следующий", fontFamily = InterFamily)
+                            Text(
+                                text = "Следующий",
+                                fontFamily = InterFamily,
+                                fontSize = 12.sp)
                             Icon(
                                 painter = painterResource(
                                     id = R.drawable.arrow_forward
                                 ),
                                 contentDescription = null,
                                 modifier = Modifier
-                                    .height(24.dp)
-                                    .width(24.dp)
+                                    .height(16.dp)
+                                    .width(16.dp)
                                     .padding(4.dp, 0.dp, 0.dp, 0.dp),
                                 tint = colorScheme.onBackground
                             )
@@ -300,6 +304,7 @@ fun RightButton(
     ) {
         Text(
             text = "Проверить",
+            fontSize = 12.sp,
             fontFamily = InterFamily
         )
     }

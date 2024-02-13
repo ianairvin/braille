@@ -1,6 +1,5 @@
 package ru.braille.domain.use_case.repeat_use_case
 
-import android.util.Log
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.repository.RepeatRepository
 import java.time.LocalDateTime
