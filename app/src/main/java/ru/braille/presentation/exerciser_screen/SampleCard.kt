@@ -183,10 +183,9 @@ fun SurfaceSymbol(
                         Button(
                             onClick = {
                                 if(wasSymbolWrong.value) {
-                                    currentStatisticsSymbol.value.wrong += 1
                                     exerciserVM.updateStatiscticsSymbol()
                                 }
-                                exerciserVM. getSymbol()
+                                exerciserVM.getSymbol()
                                 dot1.value = false
                                 dot2.value = false
                                 dot3.value = false
