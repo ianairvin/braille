@@ -1,6 +1,6 @@
 package ru.braille.presentation.repeat_screen
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -53,9 +54,9 @@ fun SampleCard(
     wasWrongButtonPush: MutableState<Boolean>,
     wasSymbolRight: MutableState<Boolean>,
     wasSymbolWrong: MutableState<Boolean>,
-    numberOfRepeats: MutableState<Int>
+    numberOfRepeats: MutableState<Int>,
+    openAlertDialog: MutableState<Boolean>
 ){
-    Log.i("qqq", currentSymbol.value.symbol)
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,14 +67,49 @@ fun SampleCard(
         Column(
             modifier = Modifier.fillMaxSize().padding(8.dp)
         ) {
-            Text(
-                text = "Повторение №${numberOfRepeats.value}",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                modifier = Modifier.padding(start = 16.dp, top = 12.dp).weight(0.35f),
-                fontFamily = InterFamily
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 12.dp, end = 16.dp)
+                    .weight(0.35f)
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = "Повторение №${numberOfRepeats.value}",
+                        color = Color.Gray,
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp,
+                        fontFamily = InterFamily
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            id = R.drawable.help
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickable(
+                                onClick = {
+                                    openAlertDialog.value = true
+                                },
+                                interactionSource = interactionSource,
+                                indication = null
+                            )
+                            .size(20.dp)
+                        ,
+                        tint = Color.Gray,
+                    )
+                }
+            }
             Row(
                 modifier = Modifier.weight(0.35f).fillMaxWidth().padding(),
                 horizontalArrangement = Arrangement.Center,
@@ -113,7 +149,7 @@ fun SampleCard(
                 )
             }
             Column(modifier = Modifier
-                .weight(1f)
+                .weight(1.5f)
                 .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
             ) {
 

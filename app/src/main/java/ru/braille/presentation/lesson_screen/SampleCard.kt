@@ -120,7 +120,7 @@ fun SampleCard(
                 )
             }
             Column(modifier = Modifier
-                .weight(1f)
+                .weight(1.5f)
                 .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
             ) {
 

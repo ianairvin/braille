@@ -102,10 +102,10 @@ fun SurfaceSymbolLesson(
     ) {
         if(noSymbols.value) {
             NoSymbols()
-        } else if(lessonOver.value){
-            LessonOver(lessonOver, navController, noSymbols)
         } else if(wasLessonComplete.value && !lessonOver.value) {
             Warning(wasLessonComplete, lessonVM)
+        } else if(lessonOver.value){
+            LessonOver(lessonOver, navController, noSymbols)
         }  else {
             SampleCard(
                 currentSymbol,
@@ -136,50 +136,38 @@ fun Warning(
     wasLessonComplete: MutableState<Boolean>,
     lessonVM: LessonVM
 ){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+    Text(
+        fontFamily = InterFamily,
+        fontSize = 16.sp,
+        text = "Начиная урок заново"
+    )
+    Text(
+        fontFamily = InterFamily,
+        fontSize = 16.sp,
+        text = "весь прогресс будет утерян"
+    )
+    Spacer(Modifier.padding(bottom = 32.dp))
+    Button(
+        onClick = {
+            wasLessonComplete.value = false
+            lessonVM.updateLesson()
+            lessonVM.updateSymbolsAfterReset()
+        }
     ){
         Text(
-            fontFamily = InterFamily,
-            fontSize = 16.sp,
-            text = "Начиная урок заново"
+            text = "Продолжить",
+            fontFamily = InterFamily
         )
-        Text(
-            fontFamily = InterFamily,
-            fontSize = 16.sp,
-            text = "весь прогресс будет утерян"
-        )
-        Spacer(Modifier.padding(bottom = 32.dp))
-        Button(
-            onClick = {
-                wasLessonComplete.value = false
-                lessonVM.updateLesson()
-                lessonVM.updateSymbolsAfterReset()
-            }
-        ){
-            Text(
-                text = "Продолжить",
-                fontFamily = InterFamily
-            )
-        }
     }
 }
 
 @Composable
 fun NoSymbols(){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    ){
-        Text(
-            fontFamily = InterFamily,
-            fontSize = 16.sp,
-            text = "Нет символов для изучения"
-        )
-    }
+    Text(
+        fontFamily = InterFamily,
+        fontSize = 16.sp,
+        text = "Нет символов для изучения"
+    )
 }
 
 @Composable
@@ -188,28 +176,22 @@ fun LessonOver(
     navController: NavHostController,
     noSymbols: MutableState<Boolean>
 ){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
+    Text(
+        fontFamily = InterFamily,
+        fontSize = 16.sp,
+        text = "Урок завершен"
+    )
+    Spacer(Modifier.padding(bottom = 32.dp))
+    Button(
+        onClick = {
+            lessonOver.value = false
+            noSymbols.value = false
+            navController.navigate("list_lessons")
+        }
     ){
         Text(
-            fontFamily = InterFamily,
-            fontSize = 16.sp,
-            text = "Урок завершен"
+            text = "Назад",
+            fontFamily = InterFamily
         )
-        Spacer(Modifier.padding(bottom = 32.dp))
-        Button(
-            onClick = {
-                lessonOver.value = false
-                noSymbols.value = false
-                navController.navigate("list_lessons")
-            }
-        ){
-            Text(
-                text = "Назад",
-                fontFamily = InterFamily
-            )
-        }
     }
 }

@@ -25,6 +25,7 @@ open class RepeatVM @Inject constructor(
     val repeatsSymbols = mutableStateOf<MutableList<Symbol>>(mutableListOf())
     val noSymbols = mutableStateOf(false)
     val numberOfRepeats = mutableStateOf(0)
+    val itWasLastSymbol = mutableStateOf(false)
 
     val currentSymbol = mutableStateOf(Symbol(
         "",
@@ -55,15 +56,18 @@ open class RepeatVM @Inject constructor(
 
     fun nextSymbol(){
         val symbol = currentSymbol.value
-        if(repeatsSymbols.value.size > 1){
+        if(repeatsSymbols.value.size > 1) {
             while (currentSymbol.value == symbol) {
                 currentSymbol.value = repeatsSymbols.value.random()
             }
             getNumberOfRepeats()
+        } else if(itWasLastSymbol.value){
+            itWasLastSymbol.value = false
         } else if(repeatsSymbols.value.size == 0){
             noSymbols.value = true
         } else {
             currentSymbol.value = repeatsSymbols.value.first()
+            itWasLastSymbol.value = true
             getNumberOfRepeats()
         }
     }

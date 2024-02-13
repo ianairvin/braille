@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
     private val repeatsViewModel by viewModels<RepeatVM>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContent {
@@ -80,7 +81,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 
 @Composable
 fun UiController(darkTheme: Boolean){

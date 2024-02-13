@@ -39,7 +39,7 @@ fun SymbolShow(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ){
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(0.75f))
         Text(
             text = currentSymbol.value.symbol,
             fontSize = 64.sp,

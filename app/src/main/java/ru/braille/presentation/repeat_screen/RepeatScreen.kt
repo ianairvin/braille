@@ -1,16 +1,21 @@
 package ru.braille.presentation.repeat_screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -70,44 +75,64 @@ fun SurfaceSymbolRepeat(
     noSymbols: MutableState<Boolean>,
     numberOfRepeats: MutableState<Int>
 ) {
+    val openAlertDialog = remember { mutableStateOf(false) }
     Column(
-        modifier = Modifier.fillMaxSize()
-            .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),
+        modifier = if(openAlertDialog.value)
+        {
+            Modifier
+                .fillMaxSize()
+                .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp)
+                .clickable(
+                    interactionSource = interactionSource,
+                    onClick = { openAlertDialog.value = false },
+                    indication = null
+                )
+                .blur(4.dp)
+        } else {
+            Modifier
+                .fillMaxSize()
+                .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp)
+        },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(noSymbols.value) {
-            NoSymbols()
-        } else {
-            SampleCard(
-                currentSymbol,
-                dot1,
-                dot2,
-                dot3,
-                dot4,
-                dot5,
-                dot6,
-                repeatVM,
-                wasSymbolRight,
-                wasWrongButtonPush,
-                wasSymbolWrong,
-                numberOfRepeats
-            )
+        if(openAlertDialog.value) {
+            HelpSurface(openAlertDialog)
         }
+        NoSymbols(noSymbols)
+        SampleCard(
+            currentSymbol,
+            dot1,
+            dot2,
+            dot3,
+            dot4,
+            dot5,
+            dot6,
+            repeatVM,
+            wasSymbolRight,
+            wasWrongButtonPush,
+            wasSymbolWrong,
+            numberOfRepeats,
+            openAlertDialog
+        )
     }
 }
 
 @Composable
-fun NoSymbols(){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    ){
-        Text(
-            fontFamily = InterFamily,
-            fontSize = 16.sp,
-            text = "Нет символов для повторения"
-        )
+fun NoSymbols(
+    noSymbols: MutableState<Boolean>
+){
+    if(noSymbols.value) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                fontFamily = InterFamily,
+                fontSize = 16.sp,
+                text = "Нет символов для повторения"
+            )
+        }
     }
 }
