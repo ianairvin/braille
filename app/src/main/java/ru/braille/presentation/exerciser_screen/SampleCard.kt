@@ -65,10 +65,10 @@ fun SurfaceSymbol(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, top = 12.dp, end = 16.dp)
-                        .weight(1f)
+                        .weight(0.9f)
                 ) {}
                 Row(
-                    modifier = Modifier.weight(0.35f).fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier.weight(0.45f).fillMaxWidth().padding(top = 16.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ){
