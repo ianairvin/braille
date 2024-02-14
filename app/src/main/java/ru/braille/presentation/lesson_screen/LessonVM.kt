@@ -117,10 +117,23 @@ class LessonVM @Inject constructor(
                 symbolsLesson.value[0].symbol,
                 symbolsLesson.value[1].symbol,
                 symbolsLesson.value[2].symbol,
-                wasLessonComplete.value
+                true
             )
         )
-        lessonOver.value = wasLessonComplete.value
+        lessonOver.value = true
+        wasLessonComplete.value = true
+    }
+
+    fun resetLesson() = viewModelScope.launch{
+        updateLesson(
+            Lesson(
+                selectedLesson.value,
+                symbolsLesson.value[0].symbol,
+                symbolsLesson.value[1].symbol,
+                symbolsLesson.value[2].symbol,
+                false
+            )
+        )
     }
 
     fun updateSymbolsAfterReset() = viewModelScope.launch {

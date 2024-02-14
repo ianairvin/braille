@@ -17,5 +17,4 @@ class ListLessonsVM @Inject constructor (
     var listLessons = getListLessonsUseCase()
     var selectedLesson = mutableStateOf(1)
 
-
 }

@@ -206,7 +206,6 @@ fun SampleCard(
                         onClick = {
                             if (islistFirstShowEmpty.value) {
                                 if (symbolsAreNotLearning.value.size == 0) {
-                                    wasLessonComplete.value = true
                                     lessonVM.updateLesson()
                                     navController.navigate("lesson")
                                 } else {

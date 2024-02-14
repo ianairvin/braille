@@ -2,10 +2,12 @@ package ru.braille.presentation.lesson_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -101,12 +103,21 @@ fun SurfaceSymbolLesson(
         verticalArrangement = Arrangement.Center
     ) {
         if(noSymbols.value) {
-            NoSymbols()
-        } else if(wasLessonComplete.value && !lessonOver.value) {
-            Warning(wasLessonComplete, lessonVM)
+            NoSymbols(navController)
         } else if(lessonOver.value){
-            LessonOver(lessonOver, navController, noSymbols)
-        }  else {
+            LessonOver(
+                lessonOver,
+                navController,
+                noSymbols,
+                wasLessonComplete,
+                selectedLessonFromLessonVM)
+        } else if(wasLessonComplete.value && !lessonOver.value) {
+            Warning(
+                wasLessonComplete,
+                lessonVM,
+                navController
+                )
+        } else {
             SampleCard(
                 currentSymbol,
                 dot1,
@@ -134,12 +145,13 @@ fun SurfaceSymbolLesson(
 @Composable
 fun Warning(
     wasLessonComplete: MutableState<Boolean>,
-    lessonVM: LessonVM
+    lessonVM: LessonVM,
+    navController: NavHostController
 ){
     Text(
         fontFamily = InterFamily,
         fontSize = 16.sp,
-        text = "Начиная урок заново"
+        text = "Начиная урок заново,"
     )
     Text(
         fontFamily = InterFamily,
@@ -147,34 +159,62 @@ fun Warning(
         text = "весь прогресс будет утерян"
     )
     Spacer(Modifier.padding(bottom = 32.dp))
+    Row(){
+        OutlinedButton(
+            onClick = {
+                navController.navigate("list_lessons")
+            }
+        ){
+            Text(
+                text = "Назад",
+                fontFamily = InterFamily
+            )
+        }
+        Spacer(Modifier.padding(start = 16.dp))
+        Button(
+            onClick = {
+                wasLessonComplete.value = false
+                lessonVM.resetLesson()
+                lessonVM.updateSymbolsAfterReset()
+            }
+        ){
+            Text(
+                text = "Продолжить",
+                fontFamily = InterFamily
+            )
+        }
+    }
+}
+
+@Composable
+fun NoSymbols(
+    navController: NavHostController
+){
+    Text(
+        fontFamily = InterFamily,
+        fontSize = 16.sp,
+        text = "Нет символов для изучения"
+    )
+    Spacer(Modifier.padding(bottom = 32.dp))
     Button(
         onClick = {
-            wasLessonComplete.value = false
-            lessonVM.updateLesson()
-            lessonVM.updateSymbolsAfterReset()
+            navController.navigate("list_lessons")
         }
     ){
         Text(
-            text = "Продолжить",
+            text = "Назад",
             fontFamily = InterFamily
         )
     }
 }
 
 @Composable
-fun NoSymbols(){
-    Text(
-        fontFamily = InterFamily,
-        fontSize = 16.sp,
-        text = "Нет символов для изучения"
-    )
-}
-
-@Composable
 fun LessonOver(
     lessonOver: MutableState<Boolean>,
     navController: NavHostController,
-    noSymbols: MutableState<Boolean>
+    noSymbols: MutableState<Boolean>,
+    wasLessonComplete: MutableState<Boolean>,
+    selectedLessonFromLessonVM: MutableState<Int>
 ){
     Text(
         fontFamily = InterFamily,
@@ -184,8 +224,10 @@ fun LessonOver(
     Spacer(Modifier.padding(bottom = 32.dp))
     Button(
         onClick = {
+            wasLessonComplete.value = false
             lessonOver.value = false
             noSymbols.value = false
+            selectedLessonFromLessonVM.value = 0
             navController.navigate("list_lessons")
         }
     ){
