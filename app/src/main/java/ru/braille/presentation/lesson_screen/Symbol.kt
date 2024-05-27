@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun SymbolShow(

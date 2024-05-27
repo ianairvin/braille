@@ -34,25 +34,25 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideLessonRepository(db: DataBase) : LessonRepository {
+    fun provideLessonRepository(db: DataBase): LessonRepository {
         return LessonRepositoryImpl(db.dao)
     }
 
     @Provides
     @Singleton
-    fun provideSymbolRepository(db: DataBase) : SymbolRepository {
+    fun provideSymbolRepository(db: DataBase): SymbolRepository {
         return SymbolRepositoryImpl(db.dao)
     }
 
     @Provides
     @Singleton
-    fun provideStatisticsRepository(db: DataBase) : StatisticsRepository {
+    fun provideStatisticsRepository(db: DataBase): StatisticsRepository {
         return StatisticsRepositoryImpl(db.dao)
     }
 
     @Provides
     @Singleton
-    fun provideRepeatRepository(db: DataBase) : RepeatRepository {
+    fun provideRepeatRepository(db: DataBase): RepeatRepository {
         return RepeatRepositoryImpl(db.dao)
     }
 }

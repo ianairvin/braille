@@ -11,6 +11,7 @@ import ru.braille.domain.entities.Symbol
 import ru.braille.domain.use_case.lesson_use_case.StatusCompleteLessonUseCase
 import ru.braille.domain.use_case.lesson_use_case.UpdateLessonUseCase
 import ru.braille.domain.use_case.repeat_use_case.UpdateRepeatSymbolUseCase
+import ru.braille.domain.use_case.statistics_use_case.UpdateSymbolStatisticsUseCase
 import ru.braille.domain.use_case.symbol_use_case.GetSymbolsOfLessonUseCase
 import ru.braille.domain.use_case.symbol_use_case.UpdateSymbolUseCase
 import javax.inject.Inject
@@ -21,8 +22,9 @@ class LessonVM @Inject constructor(
     private val updateSymbol: UpdateSymbolUseCase,
     private val updateLesson: UpdateLessonUseCase,
     private val statusCompleteLesson: StatusCompleteLessonUseCase,
-    private val updateRepeatSymbol: UpdateRepeatSymbolUseCase
-): ViewModel() {
+    private val updateRepeatSymbol: UpdateRepeatSymbolUseCase,
+    private val updateSymbolStatistics: UpdateSymbolStatisticsUseCase
+) : ViewModel() {
     val symbolsAreNotLearning: MutableState<MutableList<Symbol>> = mutableStateOf(mutableListOf())
 
     val selectedLesson = mutableStateOf(100)
@@ -34,21 +36,26 @@ class LessonVM @Inject constructor(
     private val listFirstShow: MutableState<MutableList<Symbol>> = mutableStateOf(mutableListOf())
     val islistFirstShowEmpty = mutableStateOf(false)
 
-    val currentSymbol = mutableStateOf(Symbol(
-        "",
-        0,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false))
+    val currentSymbol = mutableStateOf(
+        Symbol(
+            "",
+            0,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        )
+    )
 
-    var symbolsLesson: MutableState<List<Symbol>> = mutableStateOf(listOf(
-        currentSymbol.value,
-        currentSymbol.value,
-        currentSymbol.value)
+    var symbolsLesson: MutableState<List<Symbol>> = mutableStateOf(
+        listOf(
+            currentSymbol.value,
+            currentSymbol.value,
+            currentSymbol.value
+        )
     )
 
     var dot1 = mutableStateOf(false)
@@ -58,8 +65,8 @@ class LessonVM @Inject constructor(
     var dot5 = mutableStateOf(false)
     var dot6 = mutableStateOf(false)
 
-    val wasWrongButtonPush =  mutableStateOf(false)
-    val wasSymbolRight =  mutableStateOf(false)
+    val wasWrongButtonPush = mutableStateOf(false)
+    val wasSymbolRight = mutableStateOf(false)
     val wasSymbolWrong = mutableStateOf(false)
 
     val lessonOver = mutableStateOf(false)
@@ -69,16 +76,16 @@ class LessonVM @Inject constructor(
         symbolsAreNotLearning.value.clear()
         listFirstShow.value.clear()
         symbolsLesson.value.forEach {
-            if(!it.completed) {
+            if (!it.completed) {
                 symbolsAreNotLearning.value.add(it)
             }
         }
-        if(symbolsAreNotLearning.value.isEmpty()) {
+        if (symbolsAreNotLearning.value.isEmpty()) {
             noSymbols.value = true
         } else {
             currentSymbol.value = symbolsAreNotLearning.value.first()
             noSymbols.value = false
-            symbolsAreNotLearning.value.forEach{
+            symbolsAreNotLearning.value.forEach {
                 listFirstShow.value.add(it)
             }
             firstSymbolForFirstShow()
@@ -96,21 +103,21 @@ class LessonVM @Inject constructor(
         }
     }
 
-    fun updateLearningSymbol() = viewModelScope.launch{
+    fun updateLearningSymbol() = viewModelScope.launch {
         currentSymbol.value.completed = !currentSymbol.value.completed
         updateSymbol(currentSymbol.value)
         updateRepeatSymbol(currentSymbol.value.symbol, 0, false)
     }
 
-    fun lessonComplete() = viewModelScope.launch{
+    fun lessonComplete() = viewModelScope.launch {
         wasLessonComplete.value = statusCompleteLesson(selectedLesson.value)
         lessonOver.value = false
-        if(wasLessonComplete.value){
+        if (wasLessonComplete.value) {
             noSymbols.value = false
         }
     }
 
-    fun updateLesson() = viewModelScope.launch{
+    fun updateLesson() = viewModelScope.launch {
         updateLesson(
             Lesson(
                 selectedLesson.value,
@@ -124,7 +131,7 @@ class LessonVM @Inject constructor(
         wasLessonComplete.value = true
     }
 
-    fun resetLesson() = viewModelScope.launch{
+    fun resetLesson() = viewModelScope.launch {
         updateLesson(
             Lesson(
                 selectedLesson.value,
@@ -133,6 +140,21 @@ class LessonVM @Inject constructor(
                 symbolsLesson.value[2].symbol,
                 false
             )
+        )
+        updateSymbolStatistics(
+            symbolsLesson.value[0].symbol,
+            0,
+            0
+        )
+        updateSymbolStatistics(
+            symbolsLesson.value[1].symbol,
+            0,
+            0
+        )
+        updateSymbolStatistics(
+            symbolsLesson.value[2].symbol,
+            0,
+            0
         )
     }
 
@@ -149,7 +171,7 @@ class LessonVM @Inject constructor(
         getSymbols()
     }
 
-    private fun firstSymbolForFirstShow(){
+    private fun firstSymbolForFirstShow() {
         islistFirstShowEmpty.value = false
         currentSymbol.value = listFirstShow.value.first()
         dot1.value = currentSymbol.value.dot1
@@ -160,9 +182,10 @@ class LessonVM @Inject constructor(
         dot6.value = currentSymbol.value.dot6
         listFirstShow.value.remove(currentSymbol.value)
     }
-    fun nextSymbolForFirstShow(){
+
+    fun nextSymbolForFirstShow() {
         listFirstShow.value.remove(currentSymbol.value)
-        if(listFirstShow.value.isNotEmpty()) {
+        if (listFirstShow.value.isNotEmpty()) {
             islistFirstShowEmpty.value = false
             currentSymbol.value = listFirstShow.value.first()
             dot1.value = currentSymbol.value.dot1

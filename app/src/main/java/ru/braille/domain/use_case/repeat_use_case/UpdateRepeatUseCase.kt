@@ -10,7 +10,7 @@ class UpdateRepeatSymbolUseCase @Inject constructor(
     private val repeatRepository: RepeatRepository
 ) {
     suspend operator fun invoke(symbol: String, numberOfRepeat: Int, reset: Boolean) {
-        val repeat = when(numberOfRepeat){
+        val repeat = when (numberOfRepeat) {
             0 -> LocalDateTime.now()
             1 -> LocalDateTime.now().plusHours(1)
             2 -> LocalDateTime.now().plusHours(3)

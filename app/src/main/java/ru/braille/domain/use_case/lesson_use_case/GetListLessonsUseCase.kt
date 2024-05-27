@@ -5,10 +5,10 @@ import ru.braille.domain.entities.Lesson
 import ru.braille.domain.repository.LessonRepository
 import javax.inject.Inject
 
-class GetListLessonsUseCase @Inject constructor (
+class GetListLessonsUseCase @Inject constructor(
     private val lessonRepository: LessonRepository
-){
-    operator fun invoke() : Flow<List<Lesson>> {
+) {
+    operator fun invoke(): Flow<List<Lesson>> {
         return lessonRepository.getListLessons()
     }
 }

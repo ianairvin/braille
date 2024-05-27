@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
 import ru.braille.domain.entities.SymbolStatistics
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 val interactionSource = MutableInteractionSource()
 
@@ -59,7 +59,9 @@ fun SurfaceSymbol(
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize().padding(8.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -68,11 +70,14 @@ fun SurfaceSymbol(
                         .weight(0.9f)
                 ) {}
                 Row(
-                    modifier = Modifier.weight(0.45f).fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier
+                        .weight(0.45f)
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
-                ){
-                    if(wasSymbolRight.value){
+                ) {
+                    if (wasSymbolRight.value) {
                         Text(
                             text = "Верно",
                             fontWeight = FontWeight.Medium,
@@ -80,15 +85,19 @@ fun SurfaceSymbol(
                             fontFamily = InterFamily
                         )
                     }
-                    if(wasSymbolWrong.value){
-                        Text(text = "Неверно",
+                    if (wasSymbolWrong.value) {
+                        Text(
+                            text = "Неверно",
                             fontWeight = FontWeight.Medium,
                             fontFamily = InterFamily,
-                            color = Color(0xFFD05340))
+                            color = Color(0xFFD05340)
+                        )
                     }
                 }
                 Row(
-                    modifier = Modifier.weight(3f).fillMaxWidth(),
+                    modifier = Modifier
+                        .weight(3f)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -104,15 +113,18 @@ fun SurfaceSymbol(
                         wasWrongButtonPush
                     )
                 }
-                Column(modifier = Modifier
-                    .weight(2f)
-                    .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
+                Column(
+                    modifier = Modifier
+                        .weight(2f)
+                        .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
                 ) {
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxWidth().weight(1f)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
                     ) {
                         RightButton(
                             wasSymbolRight,
@@ -133,7 +145,9 @@ fun SurfaceSymbol(
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f).fillMaxWidth()
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
                     ) {
                         Button(
                             onClick = {
@@ -183,7 +197,7 @@ fun SurfaceSymbol(
                         }
                         Button(
                             onClick = {
-                                if(wasSymbolWrong.value) {
+                                if (wasSymbolWrong.value) {
                                     exerciserVM.updateStatiscticsSymbol()
                                 }
                                 exerciserVM.getSymbol()
@@ -245,12 +259,12 @@ fun Symbol(
     dot6: MutableState<Boolean>,
     wasSymbolRight: MutableState<Boolean>,
     wasWrongButtonPush: MutableState<Boolean>
-    ){
+) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-    ){
+    ) {
         Spacer(modifier = Modifier.weight(1f))
         Text(
             text = currentSymbol.value.symbol,
@@ -272,11 +286,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -285,7 +301,7 @@ fun Symbol(
                             onClick = {
                                 dot1.value = !dot1.value
                             })
-                       },
+                },
                 tint = MaterialTheme.colorScheme.primary
             )
             Icon(
@@ -297,11 +313,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -327,11 +345,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -352,11 +372,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -382,11 +404,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -407,11 +431,13 @@ fun Symbol(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -442,10 +468,10 @@ fun RightButton(
     currentSymbol: MutableState<Symbol>,
     currentStatisticsSymbol: MutableState<SymbolStatistics>,
     exerciserVM: ExerciserVM
-){
+) {
     Button(
         onClick = {
-            if (!wasSymbolRight.value &&  !wasWrongButtonPush.value &&
+            if (!wasSymbolRight.value && !wasWrongButtonPush.value &&
                 dot1.value == currentSymbol.value.dot1 &&
                 dot2.value == currentSymbol.value.dot2 &&
                 dot3.value == currentSymbol.value.dot3 &&
@@ -457,11 +483,12 @@ fun RightButton(
                 exerciserVM.updateStatiscticsSymbol()
                 wasSymbolRight.value = true
                 wasSymbolWrong.value = false
-            } else if(!wasWrongButtonPush.value && !wasSymbolRight.value){
+            } else if (!wasWrongButtonPush.value && !wasSymbolRight.value) {
                 currentStatisticsSymbol.value.wrong += 1
                 exerciserVM.updateStatiscticsSymbol()
                 wasSymbolWrong.value = true
-            } },
+            }
+        },
     ) {
         Text(
             text = "Проверить",

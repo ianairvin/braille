@@ -17,8 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import ru.braille.presentation.repeat_screen.RepeatVM
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun ExerciserScreen(
@@ -26,16 +25,18 @@ fun ExerciserScreen(
     exerciserVM: ExerciserVM
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ){
-        if(exerciserVM.listLearnedSymbols.value.isEmpty()){
+    ) {
+        if (exerciserVM.listLearnedSymbols.value.isEmpty()) {
             Text(
                 text = "Нет изученных символов",
                 fontFamily = InterFamily,
-                color = Color.Gray)
+                color = Color.Gray
+            )
         } else {
             Statistics(navController)
             SurfaceSymbol(
@@ -57,7 +58,7 @@ fun ExerciserScreen(
 }
 
 @Composable
-fun Statistics(navController: NavController){
+fun Statistics(navController: NavController) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End
@@ -65,7 +66,8 @@ fun Statistics(navController: NavController){
         Button(
             onClick = {
                 navController.navigate("statistics") {
-                }},
+                }
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorScheme.background,
                 contentColor = colorScheme.onBackground,
@@ -74,7 +76,8 @@ fun Statistics(navController: NavController){
             ),
             contentPadding = PaddingValues(2.dp)
         ) {
-            Text(text = "Статистика",
+            Text(
+                text = "Статистика",
                 fontFamily = InterFamily
             )
         }

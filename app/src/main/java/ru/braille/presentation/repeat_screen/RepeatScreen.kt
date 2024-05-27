@@ -3,31 +3,21 @@ package ru.braille.presentation.repeat_screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import ru.braille.domain.entities.Symbol
-import ru.braille.presentation.exerciser_screen.ExerciserVM
-import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.TopBar
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun RepeatScreen(
@@ -35,9 +25,10 @@ fun RepeatScreen(
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
     repeatVM: RepeatVM,
-    tabIndex: MutableState<Int>
+    tabIndex: MutableState<Int>,
+    openAlertDialogRepeatHelper: MutableState<Boolean>
 ) {
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
@@ -54,7 +45,8 @@ fun RepeatScreen(
             repeatVM.wasSymbolRight,
             repeatVM.wasSymbolWrong,
             repeatVM.noSymbols,
-            repeatVM.numberOfRepeats
+            repeatVM.numberOfRepeats,
+            openAlertDialogRepeatHelper
         )
     }
 }
@@ -73,12 +65,11 @@ fun SurfaceSymbolRepeat(
     wasSymbolRight: MutableState<Boolean>,
     wasSymbolWrong: MutableState<Boolean>,
     noSymbols: MutableState<Boolean>,
-    numberOfRepeats: MutableState<Int>
+    numberOfRepeats: MutableState<Int>,
+    openAlertDialog: MutableState<Boolean>
 ) {
-    val openAlertDialog = remember { mutableStateOf(false) }
     Column(
-        modifier = if(openAlertDialog.value)
-        {
+        modifier = if (openAlertDialog.value) {
             Modifier
                 .fillMaxSize()
                 .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp)
@@ -96,7 +87,7 @@ fun SurfaceSymbolRepeat(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(openAlertDialog.value) {
+        if (openAlertDialog.value) {
             HelpSurface(openAlertDialog)
         }
         NoSymbols(noSymbols)
@@ -121,8 +112,8 @@ fun SurfaceSymbolRepeat(
 @Composable
 fun NoSymbols(
     noSymbols: MutableState<Boolean>
-){
-    if(noSymbols.value) {
+) {
+    if (noSymbols.value) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -131,7 +122,8 @@ fun NoSymbols(
             Text(
                 fontFamily = InterFamily,
                 fontSize = 16.sp,
-                text = "Нет символов для повторения"
+                text = "Нет символов для повторения",
+                color = Color.Gray
             )
         }
     }

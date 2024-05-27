@@ -16,16 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import ru.braille.domain.entities.Symbol
 import ru.braille.presentation.exerciser_screen.ExerciserVM
 import ru.braille.presentation.list_lessons_screen.ListLessonsVM
 import ru.braille.presentation.main_elements_app.TopBar
-import ru.braille.presentation.repeat_screen.RepeatVM
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun LessonScreen(
@@ -37,7 +32,7 @@ fun LessonScreen(
     listLessonsVM: ListLessonsVM,
     tabIndex: MutableState<Int>
 ) {
-    Column (
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
@@ -91,32 +86,34 @@ fun SurfaceSymbolLesson(
     exerciserVM: ExerciserVM,
     lessonOver: MutableState<Boolean>
 ) {
-    if(selectedLessonFromLessonVM.value != selectedLessonFromListLessonVM.value){
+    if (selectedLessonFromLessonVM.value != selectedLessonFromListLessonVM.value) {
         selectedLessonFromLessonVM.value = selectedLessonFromListLessonVM.value
         lessonVM.getSymbols()
         lessonVM.lessonComplete()
     }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if(noSymbols.value) {
+        if (noSymbols.value) {
             NoSymbols(navController)
-        } else if(lessonOver.value){
+        } else if (lessonOver.value) {
             LessonOver(
                 lessonOver,
                 navController,
                 noSymbols,
                 wasLessonComplete,
-                selectedLessonFromLessonVM)
-        } else if(wasLessonComplete.value && !lessonOver.value) {
+                selectedLessonFromLessonVM
+            )
+        } else if (wasLessonComplete.value && !lessonOver.value) {
             Warning(
                 wasLessonComplete,
                 lessonVM,
                 navController
-                )
+            )
         } else {
             SampleCard(
                 currentSymbol,
@@ -147,7 +144,7 @@ fun Warning(
     wasLessonComplete: MutableState<Boolean>,
     lessonVM: LessonVM,
     navController: NavHostController
-){
+) {
     Text(
         fontFamily = InterFamily,
         fontSize = 16.sp,
@@ -159,12 +156,12 @@ fun Warning(
         text = "весь прогресс будет утерян"
     )
     Spacer(Modifier.padding(bottom = 32.dp))
-    Row(){
+    Row() {
         OutlinedButton(
             onClick = {
                 navController.navigate("list_lessons")
             }
-        ){
+        ) {
             Text(
                 text = "Назад",
                 fontFamily = InterFamily
@@ -177,7 +174,7 @@ fun Warning(
                 lessonVM.resetLesson()
                 lessonVM.updateSymbolsAfterReset()
             }
-        ){
+        ) {
             Text(
                 text = "Продолжить",
                 fontFamily = InterFamily
@@ -189,7 +186,7 @@ fun Warning(
 @Composable
 fun NoSymbols(
     navController: NavHostController
-){
+) {
     Text(
         fontFamily = InterFamily,
         fontSize = 16.sp,
@@ -200,7 +197,7 @@ fun NoSymbols(
         onClick = {
             navController.navigate("list_lessons")
         }
-    ){
+    ) {
         Text(
             text = "Назад",
             fontFamily = InterFamily
@@ -215,7 +212,7 @@ fun LessonOver(
     noSymbols: MutableState<Boolean>,
     wasLessonComplete: MutableState<Boolean>,
     selectedLessonFromLessonVM: MutableState<Int>
-){
+) {
     Text(
         fontFamily = InterFamily,
         fontSize = 16.sp,
@@ -230,7 +227,7 @@ fun LessonOver(
             selectedLessonFromLessonVM.value = 0
             navController.navigate("list_lessons")
         }
-    ){
+    ) {
         Text(
             text = "Назад",
             fontFamily = InterFamily

@@ -14,6 +14,7 @@ import ru.braille.data.room.entities.SymbolStatisticsDB
 
 abstract class DataBase : RoomDatabase() {
     abstract val dao: Dao
+
     companion object {
         const val DB_NAME = "braille_app_db"
     }

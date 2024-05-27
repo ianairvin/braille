@@ -8,7 +8,7 @@ import javax.inject.Inject
 class UpdateSymbolUseCase @Inject constructor(
     val symbolRepository: SymbolRepository
 ) {
-    suspend operator fun invoke(symbol: Symbol){
+    suspend operator fun invoke(symbol: Symbol) {
         symbolRepository.updateSymbol(symbol)
     }
 }

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun SymbolShow(
@@ -34,11 +34,11 @@ fun SymbolShow(
     dot6: MutableState<Boolean>,
     wasSymbolRight: MutableState<Boolean>,
     wasWrongButtonPush: MutableState<Boolean>
-){
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-    ){
+    ) {
         Spacer(modifier = Modifier.weight(0.75f))
         Text(
             text = currentSymbol.value.symbol,
@@ -60,11 +60,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -85,11 +87,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -115,11 +119,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -140,11 +146,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -170,11 +178,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(
@@ -195,11 +205,13 @@ fun SymbolShow(
                 contentDescription = null,
                 modifier =
                 if (wasSymbolRight.value || wasWrongButtonPush.value) {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                 } else {
-                    Modifier.height(54.dp)
+                    Modifier
+                        .height(54.dp)
                         .width(54.dp)
                         .padding(6.dp, 0.dp, 6.dp, 0.dp)
                         .clickable(

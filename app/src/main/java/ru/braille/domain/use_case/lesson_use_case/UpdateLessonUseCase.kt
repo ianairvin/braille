@@ -7,7 +7,7 @@ import javax.inject.Inject
 class UpdateLessonUseCase @Inject constructor(
     val lessonRepository: LessonRepository
 ) {
-    suspend operator fun invoke(lesson : Lesson){
+    suspend operator fun invoke(lesson: Lesson) {
         lessonRepository.updateLesson(lesson)
     }
 }

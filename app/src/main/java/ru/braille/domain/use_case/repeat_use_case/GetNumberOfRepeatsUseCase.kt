@@ -5,8 +5,8 @@ import javax.inject.Inject
 
 class GetNumberOfRepeatsUseCase @Inject constructor(
     private val repeatRepository: RepeatRepository
-){
-    suspend operator fun invoke(symbol: String) : Int {
+) {
+    suspend operator fun invoke(symbol: String): Int {
         return repeatRepository.getNumberOfRepeats(symbol)
     }
 }

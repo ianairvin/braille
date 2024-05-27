@@ -1,7 +1,10 @@
-package ru.braille.ui.theme
+package ru.braille.presentation.theme
+
 import androidx.compose.ui.graphics.Color
 
-val primaryLight = Color(0xFF3d30c9)
+val surfaceContainerAlertDialogLight = Color(0xFFE0E0F1)
+val primaryLightContainerOutlinedButton = Color(0x1E6470b0)
+val primaryLight = Color(0xFF6470b0)//515B92)//3d30c9)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF3E4C97)
 val onPrimaryContainerLight = Color(0xFFF3F2FF)
@@ -109,6 +112,8 @@ val surfaceContainerLightHighContrast = Color(0xFFEFEDF4)
 val surfaceContainerHighLightHighContrast = Color(0xFFE9E7EE)
 val surfaceContainerHighestLightHighContrast = Color(0xFFE4E1E9)
 
+val surfaceContainerAlertDialogDark = Color(0xFF1C1C24)
+val primaryDarkContainerOutlinedButton = Color(0x1Ea8b4ff)
 val primaryDark = Color(0xFFa8b4ff)
 val onPrimaryDark = Color(0xFF192874)
 val primaryContainerDark = Color(0xFF23327D)

@@ -1,6 +1,5 @@
 package ru.braille.presentation.lesson_screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,14 +27,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
 import ru.braille.presentation.exerciser_screen.ExerciserVM
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 val interactionSource = MutableInteractionSource()
 
@@ -59,7 +57,7 @@ fun SampleCard(
     selectedLesson: MutableState<Int>,
     islistFirstShowEmpty: MutableState<Boolean>,
     exerciserVM: ExerciserVM
-){
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,10 +66,14 @@ fun SampleCard(
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
         ) {
             Row(
-                modifier = Modifier.padding(start = 16.dp, top = 12.dp).weight(1f),
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 12.dp)
+                    .weight(1f),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.Top
             ) {
@@ -87,11 +89,14 @@ fun SampleCard(
                 )
             }
             Row(
-                modifier = Modifier.weight(0.35f).fillMaxWidth().padding(),
+                modifier = Modifier
+                    .weight(0.35f)
+                    .fillMaxWidth()
+                    .padding(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
-            ){
-                if(wasSymbolRight.value){
+            ) {
+                if (wasSymbolRight.value) {
                     Text(
                         text = "Верно",
                         fontWeight = FontWeight.Medium,
@@ -99,8 +104,9 @@ fun SampleCard(
                         fontFamily = InterFamily
                     )
                 }
-                if(wasSymbolWrong.value){
-                    Text(text = "Неверно",
+                if (wasSymbolWrong.value) {
+                    Text(
+                        text = "Неверно",
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFFD05340),
                         fontFamily = InterFamily
@@ -108,7 +114,9 @@ fun SampleCard(
                 }
             }
             Row(
-                modifier = Modifier.weight(3f).fillMaxWidth(),
+                modifier = Modifier
+                    .weight(3f)
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -124,15 +132,18 @@ fun SampleCard(
                     wasWrongButtonPush
                 )
             }
-            Column(modifier = Modifier
-                .weight(2f)
-                .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
+            Column(
+                modifier = Modifier
+                    .weight(2f)
+                    .padding(start = 8.dp, end = 8.dp, bottom = 32.dp)
             ) {
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth().weight(1f)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
                 ) {
                     RightButton(
                         wasSymbolRight,
@@ -155,7 +166,9 @@ fun SampleCard(
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f).fillMaxWidth()
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
                 ) {
                     Button(
                         onClick = {
@@ -177,7 +190,9 @@ fun SampleCard(
                             disabledContainerColor = colorScheme.background,
                             disabledContentColor = colorScheme.onBackground
                         ),
-                        modifier = Modifier.weight(1f).alpha(if (islistFirstShowEmpty.value) 1f else 0f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .alpha(if (islistFirstShowEmpty.value) 1f else 0f),
                         enabled = islistFirstShowEmpty.value
                     ) {
                         Row(
@@ -277,10 +292,10 @@ fun RightButton(
     symbolsAreNotLearning: MutableState<MutableList<Symbol>>,
     islistFirstShowEmpty: MutableState<Boolean>,
     exerciserVM: ExerciserVM
-){
+) {
     Button(
         onClick = {
-            if (!wasSymbolRight.value &&  !wasWrongButtonPush.value &&
+            if (!wasSymbolRight.value && !wasWrongButtonPush.value &&
                 dot1.value == currentSymbol.value.dot1 &&
                 dot2.value == currentSymbol.value.dot2 &&
                 dot3.value == currentSymbol.value.dot3 &&
@@ -293,11 +308,12 @@ fun RightButton(
                 symbolsAreNotLearning.value.remove(currentSymbol.value)
                 wasSymbolRight.value = true
                 wasSymbolWrong.value = false
-            } else if(!wasWrongButtonPush.value && !wasSymbolRight.value){
+            } else if (!wasWrongButtonPush.value && !wasSymbolRight.value) {
                 wasSymbolWrong.value = true
-            } },
-            modifier = Modifier.alpha(if (islistFirstShowEmpty.value) 1f else 0f),
-            enabled = islistFirstShowEmpty.value
+            }
+        },
+        modifier = Modifier.alpha(if (islistFirstShowEmpty.value) 1f else 0f),
+        enabled = islistFirstShowEmpty.value
     ) {
         Text(
             text = "Проверить",

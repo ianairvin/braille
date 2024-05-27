@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAllSymbolsStatisticsUseCase @Inject constructor(
     private val symbolStatisticsRepository: StatisticsRepository
 ) {
-    operator fun invoke() : Flow<List<SymbolStatistics>> {
+    operator fun invoke(): Flow<List<SymbolStatistics>> {
         return symbolStatisticsRepository.getAllSymbolsStatistics()
     }
 }

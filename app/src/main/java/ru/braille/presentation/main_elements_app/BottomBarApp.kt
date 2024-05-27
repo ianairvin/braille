@@ -3,9 +3,7 @@ package ru.braille.presentation.main_elements_app
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,13 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
-
-import ru.braille.ui.theme.surfaceContainerDark
-import ru.braille.ui.theme.surfaceContainerLight
 import ru.braille.R
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
+import ru.braille.presentation.theme.surfaceContainerDark
+import ru.braille.presentation.theme.surfaceContainerLight
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomBar(
     badgeCountLearning: MutableState<Int>,
@@ -29,7 +25,7 @@ fun BottomBar(
     selectedItem: MutableState<String>
 ) {
     NavigationBar(
-        containerColor = if(isSystemInDarkTheme()) surfaceContainerDark
+        containerColor = if (isSystemInDarkTheme()) surfaceContainerDark
         else surfaceContainerLight
     ) {
         NavigationBarItem(
@@ -44,10 +40,12 @@ fun BottomBar(
                 }
                 selectedItem.value = "exerciser"
             },
-            label = { Text(
-                text = "Тренажер",
-                fontFamily = InterFamily
-            ) },
+            label = {
+                Text(
+                    text = "Тренажер",
+                    fontFamily = InterFamily
+                )
+            },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.exerciser),
@@ -59,14 +57,14 @@ fun BottomBar(
                 unselectedIconColor = colorScheme.onSurfaceVariant,
                 selectedTextColor = colorScheme.primary,
                 unselectedTextColor = colorScheme.onSurfaceVariant,
-                indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
+                indicatorColor = if (isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )
         )
 
         NavigationBarItem(
             selected = selectedItem.value == "list_lessons" ||
-                    selectedItem.value ==  "lesson" ||
+                    selectedItem.value == "lesson" ||
                     selectedItem.value == "repeat",
             onClick = {
                 navController.navigate("list_lessons") {
@@ -78,13 +76,16 @@ fun BottomBar(
                 }
                 selectedItem.value = "list_lessons"
             },
-            label = { Text(
-                text = "Обучение",
-                fontFamily = InterFamily) },
+            label = {
+                Text(
+                    text = "Обучение",
+                    fontFamily = InterFamily
+                )
+            },
             icon = {
                 BadgedBox(badge = {
-                    if(badgeCountLearning.value != 0){
-                        Badge{
+                    if (badgeCountLearning.value != 0) {
+                        Badge {
                             Text(text = badgeCountLearning.value.toString())
                         }
                     }
@@ -94,13 +95,14 @@ fun BottomBar(
                         painter = painterResource(id = R.drawable.learning),
                         contentDescription = null
                     )
-                } },
+                }
+            },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = colorScheme.primary,
                 unselectedIconColor = colorScheme.onSurfaceVariant,
                 selectedTextColor = colorScheme.primary,
                 unselectedTextColor = colorScheme.onSurfaceVariant,
-                indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
+                indicatorColor = if (isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )
         )
@@ -118,9 +120,11 @@ fun BottomBar(
                 selectedItem.value = "dictionary"
             },
             label = {
-                Text(text = "Словарь",
-                fontFamily = InterFamily
-                )},
+                Text(
+                    text = "Словарь",
+                    fontFamily = InterFamily
+                )
+            },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.dictionary),
@@ -132,7 +136,7 @@ fun BottomBar(
                 unselectedIconColor = colorScheme.onSurfaceVariant,
                 selectedTextColor = colorScheme.primary,
                 unselectedTextColor = colorScheme.onSurfaceVariant,
-                indicatorColor = if(isSystemInDarkTheme()) surfaceContainerDark
+                indicatorColor = if (isSystemInDarkTheme()) surfaceContainerDark
                 else surfaceContainerLight
             )
         )

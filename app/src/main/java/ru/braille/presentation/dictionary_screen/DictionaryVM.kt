@@ -20,17 +20,19 @@ class DictionaryVM @Inject constructor(
     var symbols = emptyList<List<String>>()
     var openSymbol = mutableStateOf<Symbol>(
         Symbol(
-        "А",
-        0,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,))
+            "А",
+            0,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        )
+    )
 
-    fun getAllSymbols() = viewModelScope.launch{
+    fun getAllSymbols() = viewModelScope.launch {
         allSymbols = getAllSymbolsUseCase()
         symbols = allSymbols.chunked(3)
     }
@@ -39,7 +41,7 @@ class DictionaryVM @Inject constructor(
         openSymbol.value = getSymbolUseCase(symbol)
     }
 
-    init{
+    init {
         getAllSymbols()
     }
 

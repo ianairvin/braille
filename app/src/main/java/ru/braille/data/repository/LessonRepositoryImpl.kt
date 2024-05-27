@@ -3,7 +3,6 @@ package ru.braille.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.braille.data.room.Dao
-import ru.braille.data.room.entities.LessonDB
 import ru.braille.domain.entities.Lesson
 import ru.braille.domain.repository.LessonRepository
 import ru.braille.toLesson

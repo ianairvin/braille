@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.braille.R
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun TopBar(
@@ -24,7 +24,7 @@ fun TopBar(
     selectedItem: MutableState<String>,
     badgeCountLearning: MutableState<Int>,
     tabIndex: MutableState<Int>
-){
+) {
     Spacer(modifier = Modifier.padding(bottom = 16.dp))
     TabRow(
         selectedTabIndex = tabIndex.value
@@ -32,7 +32,7 @@ fun TopBar(
         Tab(
             selected = tabIndex.value == 0,
             onClick = {
-                if(selectedItem.value != "lesson") {
+                if (selectedItem.value != "lesson") {
                     tabIndex.value = 0
                     selectedItem.value = "list_lessons"
                     navController.navigate("list_lessons") {
@@ -44,10 +44,12 @@ fun TopBar(
                     }
                 }
             },
-            text = { Text(
-                text = "Уроки",
-                fontFamily = InterFamily
-            ) }
+            text = {
+                Text(
+                    text = "Уроки",
+                    fontFamily = InterFamily
+                )
+            }
         )
         Tab(
             selected = tabIndex.value == 1,
@@ -68,7 +70,8 @@ fun TopBar(
                 ) {
                     Text(
                         text = "Повторение",
-                        fontFamily = InterFamily)
+                        fontFamily = InterFamily
+                    )
                     Spacer(modifier = Modifier.padding(end = 4.dp))
                     if (badgeCountLearning.value != 0) {
                         Icon(

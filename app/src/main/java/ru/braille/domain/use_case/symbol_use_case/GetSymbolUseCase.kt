@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetSymbolUseCase @Inject constructor(
     private val symbolRepository: SymbolRepository
 ) {
-    suspend operator fun invoke(findSymbol: String) : Symbol {
+    suspend operator fun invoke(findSymbol: String): Symbol {
         return symbolRepository.getSymbol(findSymbol)
     }
 }

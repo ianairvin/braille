@@ -2,7 +2,6 @@ package ru.braille.presentation.repeat_screen
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,23 +19,26 @@ open class RepeatVM @Inject constructor(
     private val getRepeatsSymbols: GetRepeatsSymbolsUseCase,
     private val getNumberOfRepeats: GetNumberOfRepeatsUseCase,
     private val updateRepeatSymbol: UpdateRepeatSymbolUseCase
-): ViewModel() {
+) : ViewModel() {
 
     val repeatsSymbols = mutableStateOf<MutableList<Symbol>>(mutableListOf())
     val noSymbols = mutableStateOf(false)
     val numberOfRepeats = mutableStateOf(0)
     val itWasLastSymbol = mutableStateOf(false)
 
-    val currentSymbol = mutableStateOf(Symbol(
-        "",
-        0,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false))
+    val currentSymbol = mutableStateOf(
+        Symbol(
+            "",
+            0,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+        )
+    )
 
 
     var dot1 = mutableStateOf(false)
@@ -46,24 +48,24 @@ open class RepeatVM @Inject constructor(
     var dot5 = mutableStateOf(false)
     var dot6 = mutableStateOf(false)
 
-    val wasWrongButtonPush =  mutableStateOf(false)
-    val wasSymbolRight =  mutableStateOf(false)
+    val wasWrongButtonPush = mutableStateOf(false)
+    val wasSymbolRight = mutableStateOf(false)
     val wasSymbolWrong = mutableStateOf(false)
 
-    private fun getNumberOfRepeats() = viewModelScope.launch{
+    private fun getNumberOfRepeats() = viewModelScope.launch {
         numberOfRepeats.value = getNumberOfRepeats(currentSymbol.value.symbol)
     }
 
-    fun nextSymbol(){
+    fun nextSymbol() {
         val symbol = currentSymbol.value
-        if(repeatsSymbols.value.size > 1) {
+        if (repeatsSymbols.value.size > 1) {
             while (currentSymbol.value == symbol) {
                 currentSymbol.value = repeatsSymbols.value.random()
             }
             getNumberOfRepeats()
-        } else if(itWasLastSymbol.value){
+        } else if (itWasLastSymbol.value) {
             itWasLastSymbol.value = false
-        } else if(repeatsSymbols.value.size == 0){
+        } else if (repeatsSymbols.value.size == 0) {
             noSymbols.value = true
         } else {
             currentSymbol.value = repeatsSymbols.value.first()
@@ -84,11 +86,11 @@ open class RepeatVM @Inject constructor(
 
     private fun updateListRepeatSymbols(currentTime: LocalDateTime) = viewModelScope.launch {
         repeatsSymbols.value = getRepeatsSymbols(currentTime).toMutableList()
-        if(repeatsSymbols.value.isEmpty()){
+        if (repeatsSymbols.value.isEmpty()) {
             noSymbols.value = true
             currentSymbol.value.symbol = ""
         }
-        if(currentSymbol.value.symbol == "" && repeatsSymbols.value.isNotEmpty()){
+        if (currentSymbol.value.symbol == "" && repeatsSymbols.value.isNotEmpty()) {
             nextSymbol()
             noSymbols.value = false
         }
@@ -98,7 +100,7 @@ open class RepeatVM @Inject constructor(
         updateRepeatSymbol(currentSymbol.value.symbol, numberOfRepeats.value, false)
     }
 
-    init{
+    init {
         updateListRepeatSymbols(LocalDateTime.now())
         updateCurrentTime()
     }

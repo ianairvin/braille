@@ -9,8 +9,13 @@ import javax.inject.Inject
 
 class GetRepeatsSymbolsUseCase @Inject constructor(
     private val repeatRepository: RepeatRepository
-){
-    suspend operator fun invoke(currentTime: LocalDateTime) : List<Symbol>{
-        return repeatRepository.getRepeatsSymbols(ZonedDateTime.of(currentTime, ZoneId.systemDefault()).toInstant().toEpochMilli())
+) {
+    suspend operator fun invoke(currentTime: LocalDateTime): List<Symbol> {
+        return repeatRepository.getRepeatsSymbols(
+            ZonedDateTime.of(
+                currentTime,
+                ZoneId.systemDefault()
+            ).toInstant().toEpochMilli()
+        )
     }
 }

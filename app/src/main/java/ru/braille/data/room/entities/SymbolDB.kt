@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "symbol_table")
-data class SymbolDB (
+data class SymbolDB(
     @PrimaryKey val symbol: String,
     val numberOfLesson: Int,
     var completed: Int,

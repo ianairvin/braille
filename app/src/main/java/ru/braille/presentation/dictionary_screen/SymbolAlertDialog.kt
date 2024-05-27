@@ -1,5 +1,7 @@
 package ru.braille.presentation.dictionary_screen
 
+import android.view.WindowManager
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,43 +10,51 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogWindowProvider
 import ru.braille.R
 import ru.braille.domain.entities.Symbol
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
+import ru.braille.presentation.theme.surfaceContainerAlertDialogDark
+import ru.braille.presentation.theme.surfaceContainerAlertDialogLight
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun SymbolAlertDialog (
+fun SymbolAlertDialog(
     openAlertDialog: MutableState<Boolean>,
     symbol: Symbol
-){
+) {
 
-    BasicAlertDialog(onDismissRequest = {
+    BasicAlertDialog(
+        onDismissRequest = {
         openAlertDialog.value = false
     }) {
+        (LocalView.current.parent as DialogWindowProvider).window
+            .clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
         Surface(
             modifier = Modifier
                 .width(120.dp)
                 .height(360.dp)
                 .wrapContentHeight(),
             shape = MaterialTheme.shapes.large,
-            tonalElevation = AlertDialogDefaults.TonalElevation
+            tonalElevation = AlertDialogDefaults.TonalElevation,
+            color = colorScheme.surface
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),

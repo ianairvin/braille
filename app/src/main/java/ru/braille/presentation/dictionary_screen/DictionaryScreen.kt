@@ -13,39 +13,34 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.braille.presentation.repeat_screen.RepeatVM
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
 
 @Composable
 fun DictionaryScreen(
-    dictionaryVM: DictionaryVM
+    dictionaryVM: DictionaryVM,
+    openAlertDialog: MutableState<Boolean>
 ) {
-    val interactionSource = remember { MutableInteractionSource()}
-    val list = remember{dictionaryVM.symbols}
+    val interactionSource = remember { MutableInteractionSource() }
+    val list = remember { dictionaryVM.symbols }
 
     val scrollState = rememberScrollState()
-    val openAlertDialog = remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = if(openAlertDialog.value)
-        {
+        modifier = if (openAlertDialog.value) {
             Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
@@ -55,18 +50,20 @@ fun DictionaryScreen(
                     onClick = { openAlertDialog.value = false },
                     indication = null
                 )
-                .blur(4.dp)
         } else {
             Modifier
                 .fillMaxSize()
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp)
                 .verticalScroll(scrollState)
         }
-    ){
-        list.forEach{  buttonGroup ->
-            ButtonRow(buttonGroup, openAlertDialog, dictionaryVM )
+    ) {
+        list.forEach { buttonGroup ->
+            ButtonRow(buttonGroup, openAlertDialog, dictionaryVM)
+            if (list.last() != buttonGroup) {
+                HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            }
         }
-        if(openAlertDialog.value) SymbolAlertDialog(openAlertDialog, dictionaryVM.openSymbol.value)
+        if (openAlertDialog.value) SymbolAlertDialog(openAlertDialog, dictionaryVM.openSymbol.value)
     }
 }
 
@@ -74,20 +71,20 @@ fun DictionaryScreen(
 fun ButtonRow(
     buttonGroup: List<String>,
     openAlertDialog: MutableState<Boolean>,
-    dictionaryVM: DictionaryVM) {
+    dictionaryVM: DictionaryVM
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        horizontalArrangement = Arrangement.Center,
-  //      verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = Arrangement.Center
     ) {
-        // Создаем кнопку для каждого элемента в группе
         buttonGroup.forEach { buttonText ->
             ElevatedButton(
                 onClick = {
                     openAlertDialog.value = true
-                    dictionaryVM.getSymbol(buttonText) },
+                    dictionaryVM.getSymbol(buttonText)
+                },
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp)
                     .width(60.dp)
@@ -102,14 +99,11 @@ fun ButtonRow(
                         fontWeight = FontWeight.Bold,
                         fontSize = 26.sp,
                         fontFamily = InterFamily,
-                        textAlign = TextAlign.Center, 
+                        textAlign = TextAlign.Center,
                         modifier = Modifier.align(Alignment.CenterVertically)
-                        )
+                    )
                 }
             )
         }
-    }
-    if (buttonGroup[0] != "Э") {
-        HorizontalDivider(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
     }
 }

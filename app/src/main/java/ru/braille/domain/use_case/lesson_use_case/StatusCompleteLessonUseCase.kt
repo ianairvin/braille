@@ -6,7 +6,7 @@ import javax.inject.Inject
 class StatusCompleteLessonUseCase @Inject constructor(
     val lessonRepository: LessonRepository
 ) {
-    suspend operator fun invoke(numberOfLesson: Int) : Boolean {
+    suspend operator fun invoke(numberOfLesson: Int): Boolean {
         return lessonRepository.statusCompleteLesson(numberOfLesson)
     }
 }

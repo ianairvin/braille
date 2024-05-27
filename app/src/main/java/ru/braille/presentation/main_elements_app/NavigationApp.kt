@@ -30,15 +30,17 @@ fun AppNavHost(
     exerciserVM: ExerciserVM,
     statisticsVM: StatisticsVM,
     repeatVM: RepeatVM,
-    numberOfNotification: Int
-){
+    numberOfNotification: Int,
+    openAlertDialogDictionarySymbol: MutableState<Boolean>,
+    openAlertDialogRepeatHelper: MutableState<Boolean>
+) {
     val selectedItem = remember { mutableStateOf("list_lessons") }
     val tabIndex = remember { mutableStateOf(0) }
     badgeCountLearning.value = numberOfNotification
 
     NavHost(navController = navController, startDestination = "list_lessons") {
 
-        composable(route = "list_lessons"){
+        composable(route = "list_lessons") {
             selectedItem.value = "list_lesson"
             tabIndex.value = 0
             ListLessonsScreen(
@@ -49,7 +51,7 @@ fun AppNavHost(
                 tabIndex
             )
         }
-        composable(route = "lesson"){
+        composable(route = "lesson") {
             LessonScreen(
                 navController,
                 selectedItem,
@@ -60,7 +62,7 @@ fun AppNavHost(
                 tabIndex
             )
         }
-        composable(route = "repeat"){
+        composable(route = "repeat") {
             selectedItem.value = "repeat"
             tabIndex.value = 1
             RepeatScreen(
@@ -68,23 +70,24 @@ fun AppNavHost(
                 selectedItem,
                 badgeCountLearning,
                 repeatVM,
-                tabIndex
-                )
+                tabIndex,
+                openAlertDialogRepeatHelper
+            )
         }
-        composable(route = "exerciser"){
+        composable(route = "exerciser") {
             selectedItem.value = "list_lesson"
             tabIndex.value = 0
             ExerciserScreen(navController, exerciserVM)
         }
-        composable(route = "statistics"){
+        composable(route = "statistics") {
             selectedItem.value = "list_lesson"
             tabIndex.value = 0
             StatisticsScreen(statisticsVM)
         }
-        composable(route = "dictionary"){
+        composable(route = "dictionary") {
             selectedItem.value = "list_lesson"
             tabIndex.value = 0
-            DictionaryScreen(dictionaryVM)
+            DictionaryScreen(dictionaryVM, openAlertDialogDictionarySymbol)
         }
     }
 }

@@ -16,9 +16,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -31,9 +31,9 @@ import ru.braille.presentation.main_elements_app.AppNavHost
 import ru.braille.presentation.main_elements_app.BottomBar
 import ru.braille.presentation.repeat_screen.RepeatVM
 import ru.braille.presentation.statistics_screen.StatisticsVM
-import ru.braille.ui.theme.BrailleTheme
-import ru.braille.ui.theme.surfaceContainerDark
-import ru.braille.ui.theme.surfaceContainerLight
+import ru.braille.presentation.theme.BrailleTheme
+import ru.braille.presentation.theme.surfaceContainerDark
+import ru.braille.presentation.theme.surfaceContainerLight
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -53,10 +53,19 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             BrailleTheme {
                 UiController(isSystemInDarkTheme())
-                val badgeCountLearning = remember{ mutableStateOf(0) }
-                val selectedItem = remember{ mutableStateOf("list_lessons") }
+                val badgeCountLearning = remember { mutableStateOf(0) }
+                val selectedItem = remember { mutableStateOf("list_lessons") }
+                val openAlertDialogDictionarySymbol = remember { mutableStateOf(false) }
+                val openAlertDialogRepeatHelper = remember { mutableStateOf(false) }
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier =
+                    if (openAlertDialogRepeatHelper.value || openAlertDialogDictionarySymbol.value) {
+                        Modifier
+                            .fillMaxSize()
+                            .blur(4.dp)
+                    } else {
+                        Modifier.fillMaxSize()
+                    },
                     bottomBar = { BottomBar(badgeCountLearning, navController, selectedItem) }
                 ) { contentPadding ->
                     Column(
@@ -75,7 +84,9 @@ class MainActivity : ComponentActivity() {
                             exerciserViewModel,
                             statisticsViewModel,
                             repeatsViewModel,
-                            repeatsViewModel.repeatsSymbols.value.size
+                            repeatsViewModel.repeatsSymbols.value.size,
+                            openAlertDialogDictionarySymbol,
+                            openAlertDialogRepeatHelper
                         )
                     }
                 }
@@ -85,14 +96,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun UiController(darkTheme: Boolean){
+fun UiController(darkTheme: Boolean) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setStatusBarColor(color = Color.Transparent)
         systemUiController.statusBarDarkContentEnabled = !darkTheme
-        systemUiController.setNavigationBarColor(color =
-        if (darkTheme) surfaceContainerDark
-        else surfaceContainerLight
+        systemUiController.setNavigationBarColor(
+            color =
+            if (darkTheme) surfaceContainerDark
+            else surfaceContainerLight
         )
         systemUiController.navigationBarDarkContentEnabled = !darkTheme
     }

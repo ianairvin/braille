@@ -1,17 +1,18 @@
 package ru.braille.presentation.list_lessons_screen
 
-import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.braille.domain.entities.Lesson
 import ru.braille.presentation.main_elements_app.TopBar
-import ru.braille.presentation.repeat_screen.RepeatVM
-import ru.braille.ui.theme.InterFamily
+import ru.braille.presentation.theme.InterFamily
+import ru.braille.presentation.theme.primaryDarkContainerOutlinedButton
+import ru.braille.presentation.theme.primaryLightContainerOutlinedButton
 
 @Composable
 fun ListLessonsScreen(
@@ -35,13 +37,17 @@ fun ListLessonsScreen(
     badgeCountLearning: MutableState<Int>,
     listLessonsVM: ListLessonsVM,
     tabIndex: MutableState<Int>
-){
-    Column (
+) {
+    Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopBar(navController, selectedItem, badgeCountLearning, tabIndex)
         Column(modifier = Modifier.weight(8f)) {
-            ListLessons(listLessonsVM.listLessons.collectAsState(initial = emptyList()), navController, listLessonsVM.selectedLesson)
+            ListLessons(
+                listLessonsVM.listLessons.collectAsState(initial = emptyList()),
+                navController,
+                listLessonsVM.selectedLesson
+            )
         }
     }
 }
@@ -49,10 +55,10 @@ fun ListLessonsScreen(
 
 @Composable
 fun ListLessons(
-    listLessons : State<List<Lesson>>,
+    listLessons: State<List<Lesson>>,
     navController: NavHostController,
     selectedLesson: MutableState<Int>
-    ) {
+) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -97,6 +103,16 @@ fun ListLessons(
                             restoreState = true
                         }
                     },
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = colorScheme.primary
+                    ),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = if (isSystemInDarkTheme())
+                            primaryDarkContainerOutlinedButton
+                        else
+                            primaryLightContainerOutlinedButton
+                    ),
                     modifier = Modifier.width(280.dp)
                 ) {
                     Text(

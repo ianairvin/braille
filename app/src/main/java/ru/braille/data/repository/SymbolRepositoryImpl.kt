@@ -17,7 +17,7 @@ class SymbolRepositoryImpl @Inject constructor(
     override suspend fun getSymbolsOfLesson(numberOfLesson: Int): List<Symbol> {
         val symbolsDB = dao.getSymbolsOfLesson(numberOfLesson)
         val symbols = arrayListOf<Symbol>()
-        symbolsDB.forEach{
+        symbolsDB.forEach {
             symbols.add(it.toSymbol())
         }
         return symbols
@@ -27,10 +27,10 @@ class SymbolRepositoryImpl @Inject constructor(
         return dao.getAllSymbols()
     }
 
-    override suspend fun getAllLearnedSymbols() : List<Symbol>{
+    override suspend fun getAllLearnedSymbols(): List<Symbol> {
         val symbolsDB = dao.getAllLearnedSymbols()
         val symbols = arrayListOf<Symbol>()
-        symbolsDB.forEach{
+        symbolsDB.forEach {
             symbols.add(it.toSymbol())
         }
         return if (symbols.isEmpty()) emptyList() else symbols

@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class GetSymbolStatisticsUseCase @Inject constructor(
     private val symbolStatisticsRepository: StatisticsRepository
-){
-    suspend operator fun invoke(symbol : String) : SymbolStatistics{
+) {
+    suspend operator fun invoke(symbol: String): SymbolStatistics {
         return symbolStatisticsRepository.getSymbolStatistics(symbol)
     }
 }
