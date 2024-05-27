@@ -53,7 +53,8 @@ fun SymbolAlertDialog(
                 .height(360.dp)
                 .wrapContentHeight(),
             shape = MaterialTheme.shapes.large,
-            tonalElevation = AlertDialogDefaults.TonalElevation,
+            tonalElevation = 16.dp,
+            shadowElevation = 8.dp,
             color = colorScheme.surface
         ) {
             Column(

@@ -47,7 +47,8 @@ fun HelpSurface(
                 .height(360.dp)
                 .wrapContentHeight(),
             shape = MaterialTheme.shapes.large,
-            tonalElevation = AlertDialogDefaults.TonalElevation,
+            tonalElevation = 16.dp,
+            shadowElevation = 8.dp,
             color = if(isSystemInDarkTheme()) surfaceContainerAlertDialogDark
             else surfaceContainerAlertDialogLight
         ) {
