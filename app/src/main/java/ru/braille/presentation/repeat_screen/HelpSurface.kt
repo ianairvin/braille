@@ -46,9 +46,7 @@ fun HelpSurface(
                 .wrapContentHeight(),
             shape = MaterialTheme.shapes.large,
             tonalElevation = 16.dp,
-            shadowElevation = 8.dp,
-            color = if (isSystemInDarkTheme()) surfaceContainerAlertDialogDark
-            else surfaceContainerAlertDialogLight
+            shadowElevation = 8.dp
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
