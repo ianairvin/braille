@@ -4,7 +4,7 @@
 Урок:
 <br />
 <br />
-  <img src="https://github.com/ianairvin/braille/assets/80224528/59d42068-c12e-4a37-875f-70083d4c28a8" width="432x240">
+  <img src="https://github.com/ianairvin/braille/assets/80224528/59d42068-c12e-4a37-875f-70083d4c28a8" width="864x480">
   <br />
 <br />
 <br />
@@ -20,7 +20,7 @@
 Тренажер, статистика и словарь:
 <br />
 <br />
-  <img src="https://github.com/ianairvin/braille/assets/80224528/54d04cfd-82f6-4dac-8135-c4d2cce5087d" width="240x424">
+  <img src="https://github.com/ianairvin/braille/assets/80224528/54d04cfd-82f6-4dac-8135-c4d2cce5087d" width="864x480">
   <br />
 <br />
 <br />
