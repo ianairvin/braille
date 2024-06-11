@@ -12,7 +12,7 @@
 Повторение:
 <br />
 <br />
-  <img src="https://github.com/ianairvin/braille/assets/80224528/e8375034-6618-490e-89b9-232db0439f60" width="240x216">
+  <img src="https://github.com/ianairvin/braille/assets/80224528/e8375034-6618-490e-89b9-232db0439f60" width="480x432">
   <br />
 <br />
 <br />
